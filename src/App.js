@@ -1,7 +1,8 @@
 import React from 'react';
+import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Signup from './views/Signup/Signup';
-import Home from './views/Home/Home';
+import Signup from './pages/Signup/Signup';
+import Home from './pages/Home/Home';
 
 const App = () => {
     return (<
