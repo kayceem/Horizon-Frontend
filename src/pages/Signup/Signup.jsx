@@ -3,8 +3,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { createUser } from '../../api/user';
 import './Signup.scss';
+import { useNavigate  } from 'react-router-dom';
+
 
 const Signup = () => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -32,6 +35,7 @@ const Signup = () => {
         await createUser(values);
         formik.resetForm();
         console.log('User created successfully');
+        navigate('/login');
       } catch (error) {
         console.log('Error creating user: ', error.message);
       }
