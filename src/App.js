@@ -5,10 +5,12 @@ import Signup from './pages/Signup/Signup';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
+import Navbar from './components/Navbar/Navbar';
 
 const App = () => {
     return (<
         div className='main' >
+        <Navbar/>
         <Router >
         <Routes >
             <Route path="/" element={<Home/>} />
