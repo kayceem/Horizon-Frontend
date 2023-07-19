@@ -1,8 +1,8 @@
 import api from './index';
 
-export async function getProducts() {
+export async function getProducts(offset) {
     try {
-        const response = await api.get('/products/');
+        const response = await api.get(`/products/?skip=${offset}`);
         return response.data;
     } catch (error) {
         console.log('Error fetching users: ', error.message);
@@ -29,7 +29,7 @@ export async function createProduct(productData){
       }
 }
 
-export async function updateProduct(productData) {
+export async function updateProduct(productData, id) {
     try {
       const response = await api.put(`/products/${id}`, productData);
       return response.data;
@@ -39,7 +39,7 @@ export async function updateProduct(productData) {
     }
   }
 
-export async function deleteProduct() {
+export async function deleteProduct(id) {
     try {
       const response = await api.delete(`/products/${id}`);
       return response.data;
