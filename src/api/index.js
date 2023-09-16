@@ -13,7 +13,9 @@ api.interceptors.response.use(
     error => {
       if (error.response) {
         if (error.response.status === 401) {
-          console.log('Unauthorized request. Please login again.');
+          console.log('Unauthorized request. Please login.');
+        } else if (error.response.status === 403) {
+          console.log('Requested resource is forbidden.');
         } else if (error.response.status === 404) {
           console.log('Requested resource not found.');
         } else {

@@ -14,16 +14,13 @@ export async function login(credentials) {
       
       return response.data;
     } catch (error) {
-      const errorMessage = error.response.data.detail;
-      throw errorMessage;
+      throw error;
     }
   }
 export async function logout(){
   try {
-    const response = await api.post('/logout/');
-    console.log(response.data);
+    await api.post('/logout/');
   } catch (error) {
-    const errorMessage = error.response.data.detail;
-    throw errorMessage;
+    throw error;
   }
 }

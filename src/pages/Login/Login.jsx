@@ -19,15 +19,12 @@ const navigate = useNavigate();
     }),
     onSubmit: async (values) => {
       try {
-        const response = await login(values);
+        await login(values);
         setApiError(''); 
         formik.resetForm();
-        console.log(response);
-        console.log('User logged in');
         navigate('/');
       } catch (error) {
-        console.log('Error logging user: ', error)
-        setApiError(error);;
+        setApiError(error.response.data.detail);;
       }
     },
   });
