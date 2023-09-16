@@ -15,7 +15,7 @@ export async function getUser(userId) {
     const response = await api.get(`/users/${userId}`);
     return response.data;
   } catch (error) {
-    console.log('Error updating user: ', error.message);
+    console.log('Error fetching user: ', error.message);
     throw error;
   }
 }
@@ -45,7 +45,7 @@ export async function deleteUser() {
       const response = await api.delete('/users/');
       return response.data;
     } catch (error) {
-      console.log('Error updating user: ', error.message);
+      console.log('Error Deleting user: ', error.message);
       throw error;
     }
   }
