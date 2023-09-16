@@ -13,7 +13,7 @@ export async function uploadImage(image) {
 
     return response.data;
   } catch (error) {
-    console.log('Error sending message: ', error.message);
+    console.log('Error uploading image: ', error.message);
     throw error;
   }
 }

@@ -22,11 +22,23 @@ const Products = () => {
       };
       const [selectedImage, setSelectedImage] = useState(null);
 
+      const [imagePreview, setImagePreview] = useState(null);
+
       const handleImageChange = (e) => {
+        setSelectedImage(null);
         const file = e.target.files[0];
         setSelectedImage(file);
+        try{
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            setImagePreview(event.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+        catch(error){
+          setImagePreview(null);
+        }
       };
-
       const handleImageUpload = async () => {
         if (!selectedImage) {
           alert('Please select an image first.');
@@ -39,6 +51,8 @@ const Products = () => {
             .catch((error) => {
               console.error('Error:', error);
             });
+          setImagePreview(null);
+          setSelectedImage(null);
 
       }
 
@@ -50,6 +64,9 @@ const Products = () => {
       return (
         <div>
           <h2>Image Upload</h2>
+          {imagePreview && (
+        <img src={imagePreview} alt="Selected" style={{ maxWidth: '50%', maxHeight: '500px' }} />
+      )}
           <input type="file" accept="image/*" onChange={handleImageChange} />
           <button onClick={handleImageUpload}>Upload Image</button>
         </div>
