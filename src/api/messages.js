@@ -2,7 +2,7 @@ import api from './index';
 
 export async function getInbox() {
     try {
-        const response = await api.get(`/messages/inbox`);
+        const response = await api.get(`/messages/inbox/`);
         return response.data;
     } catch (error) {
         console.log('Error fetching inbox: ', error.message);
@@ -21,7 +21,7 @@ export async function getMessages(id) {
 
 export async function sendMessage(messageData){
     try {
-        const response = await api.post('/messages/chat', messageData);
+        const response = await api.post('/messages/chat/', messageData);
         return response.data;
       } catch (error) {
         console.log('Error sending message: ', error.message);

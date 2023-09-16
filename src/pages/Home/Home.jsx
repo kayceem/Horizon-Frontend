@@ -33,8 +33,8 @@ const Home = () => {
     <div className='products'>
       {products.length === 0 ? (
         <p>Loading...</p>
-      ) : (
-        <div className='row'>
+        ) : (
+          <div className='row'>
           {products.map((product) => (
             <div key={product.id} className='col-md-3 mb-4'>
               <div className='card' style={{ width: '15rem', height: '30rem'}}>
@@ -43,7 +43,7 @@ const Home = () => {
                   className='card-img-top'
                   alt='...'
                   style={{ width: '15rem', height: '200px' }}
-                />
+                  />
                 <div className='card-body'>
                   <h5 className='card-title'>{product.name}</h5>
                   <p className='card-text'>{product.description}</p>
@@ -54,11 +54,13 @@ const Home = () => {
           ))}
         </div>
       )}
+   {products.length !== 0 ? (
      <div className='text-center'>
      <button className='btn btn-primary mt-3' onClick={handleLoadMore}>
        Load More
      </button>
    </div>
+   ):(<div></div>)}
  </div>
   );
 };
