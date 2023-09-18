@@ -1,8 +1,12 @@
 import api from './index';
 
-export async function getProducts(offset) {
+export async function getProducts(offset,sortBy=null) {
     try {
-        const response = await api.get(`/products/?skip=${offset}`);
+        let query = `/products/?skip=${offset}`
+        if (sortBy){
+          query+='&sortby=latest'
+        }
+        const response = await api.get(query);
         return response.data;
     } catch (error) {
         console.log('Error fetching users: ', error.message);
