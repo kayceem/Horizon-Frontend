@@ -1,0 +1,40 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+
+.chat-header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Chat messages styles */
+  .chat-messages {
+    max-height: 600px;
+    overflow-y: scroll;
+    /* Add any other styles you need */
+  }
+  
+  /* Input box styles */
+  .input-box {
+    padding: 10px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+  
+    input[type="text"] {
+      flex: 1;
+      padding: 5px;
+    }
+  
+    button {
+      margin-left: 10px;
+    }
+  }
+  
