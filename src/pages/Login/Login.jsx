@@ -6,7 +6,7 @@ import './Login.scss';
 import { useNavigate  } from 'react-router-dom';
 
 const Login = () => {
-const [apiError, setApiError] = useState('');
+const [errorMessage, setErrorMessage] = useState('');
 const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -20,11 +20,11 @@ const navigate = useNavigate();
     onSubmit: async (values) => {
       try {
         await login(values);
-        setApiError(''); 
+        setErrorMessage(''); 
         formik.resetForm();
         navigate('/');
       } catch (error) {
-        setApiError(error.response.data.detail);;
+        setErrorMessage(error.response.data.detail);;
       }
     },
   });
@@ -48,7 +48,7 @@ const navigate = useNavigate();
       {(formik.touched.username && formik.errors.username) || (formik.touched.password && formik.errors.password) ? (
   <div className='error'>{formik.errors.username|| formik.errors.password}</div>
 ): null}
-      {apiError && <div className='error'>{apiError}</div>}
+      {errorMessage && <div className='error'>{errorMessage}</div>}
       <div>
         <button type="submit">Login</button>
       </div>
