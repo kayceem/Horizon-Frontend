@@ -1,6 +1,7 @@
 import React from 'react'
 import { LuMessageSquare } from "react-icons/lu";
 import { BsHeart, BsPerson } from "react-icons/bs";
+import { Dropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import './Navbar.scss'
 
@@ -25,12 +26,22 @@ const Navbar = () => {
                         <Link to='/inbox' className='me-5 light-icon'>
                             <LuMessageSquare size={24} />
                         </Link>
-                        <Link to='/wishlist' className='me-5 light-icon'>
+                        <Link to='/wishlist' className='me-4 light-icon'>
                             <BsHeart size={24} />
                         </Link>
-                        <Link to='/profile' className='me-5 light-icon'>
-                            <BsPerson size={30} />
-                        </Link>
+                        <Dropdown className="profile-dropdown">
+                            <Dropdown.Toggle variant='dark' id='profile-dropdown'>
+                                <BsPerson size={30} />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item as={Link} to='/profile'>
+                                    Profile
+                                </Dropdown.Item>
+                                <Dropdown.Item as={Link} to='/logout'>
+                                    Logout
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                 </div>
             </nav>
@@ -38,4 +49,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Navbar;

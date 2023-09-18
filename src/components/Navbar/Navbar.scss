@@ -4,3 +4,16 @@
 .search-box{
     width:450px;
 }
+.profile-dropdown {
+    .dropdown-toggle {
+        background-color: transparent !important; 
+        border: none; 
+    }
+    .dropdown-toggle::after {
+      display: none; 
+    }
+    .dropdown-menu {
+      border: none; 
+      box-shadow: none; 
+    }
+  }
