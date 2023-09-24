@@ -8,13 +8,16 @@ const Logout = () => {
   useEffect(() => {
     logout()
       .then(() => {
-        navigate('/login');
+        // Optional: You can add some code here if you want to perform actions
+        // after successful logout.
       })
       .catch((error) => {
         console.error('Error during logout: ', error);
+      })
+      .finally(() => {
+        navigate('/login');
       });
   }, [navigate]);
-
   return null;
 };
 
