@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { LuMessageSquare } from "react-icons/lu";
 import { BsHeart, BsPerson } from "react-icons/bs";
 import { Dropdown, Button } from 'react-bootstrap';
@@ -6,6 +7,26 @@ import { Link } from 'react-router-dom'
 import './Navbar.scss'
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    const [query, setQuery] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Trim the query to remove leading and trailing whitespace
+        const trimmedQuery = query.trim();
+    
+        if (trimmedQuery !== '') {
+          console.log(`Navigation ${trimmedQuery}`);
+          navigate(`/search?kwd=${encodeURIComponent(trimmedQuery)}`);
+        } else {
+          // Optionally, you can display an error message or prevent the submission
+          console.log('Empty search query. Please enter a search term.');
+        }
+    }
+
+    const handleInputChange = (e) => {
+        setQuery(e.target.value);
+    };
     return (
         <div className='fixed-top navbar-container'>
             <nav className="navbar bg-dark border-bottom border-bottom-dark bg-body-tertiary" data-bs-theme="dark">
@@ -17,9 +38,18 @@ const Navbar = () => {
                         </Link>
                     </div>
                     <div className="d-flex">
-                        <form className="d-flex mt-2" role="search">
-                            <input className="form-control me-2 search-box" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
+                        <form className="d-flex mt-2" role="search" onSubmit={handleSubmit}>
+                            <input
+                                className="form-control me-2 search-box"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                                value={query}
+                                onChange={handleInputChange}
+                            />
+                            <button className="btn btn-outline-success" type="submit">
+                                Search
+                            </button>
                         </form>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
