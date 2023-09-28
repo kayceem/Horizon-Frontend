@@ -9,9 +9,9 @@ export async function getInbox() {
         throw error;
     }
 }
-export async function getMessages(username) {
+export async function getMessages(username, offset=0) {
     try {
-        const response = await api.get(`/messages/chat/${username}`);
+        const response = await api.get(`/messages/chat/${username}?skip=${offset}`);
         return response.data;
     } catch (error) {
         console.log('Error fetching chat: ', error.message);
