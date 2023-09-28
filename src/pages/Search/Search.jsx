@@ -45,12 +45,13 @@ const Search = () => {
             });
     };
     const handleApplyFilters = () => {
-        // Call the applyFilters function with the selected filters
         fetchProducts();
     };
 
     useEffect(() => {
-        return () => fetchCategories();
+        return () => {
+            fetchCategories();
+        };
     }, []);
 
     useEffect(() => {
@@ -138,36 +139,35 @@ const Search = () => {
                         </div>
                     </div>
                 </div>
-                {/* Right Section for Products */}
                 <div className="products col-md-9">
-                <div style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 90px)' }}>
-                    {loading ? (
-                        <p>Loading...</p>
-                    ) : products.length === 0 ? (
-                        <p>Product not available.</p>
-                    ) : (
-                        <div className="row">
-                            {products.map((product) => (
-                                <div key={product.id} className="col-md-4 mb-4">
-                                    <div className="card" style={{ width: '15rem', height: '30rem' }}>
-                                        <img
-                                            src={product.image_url}
-                                            className="card-img-top"
-                                            alt="..."
-                                            style={{ width: '15rem', height: '200px' }}
-                                        />
-                                        <div className="card-body">
-                                            <h5 className="card-title">{product.name}</h5>
-                                            <p className="card-text">{product.description}</p>
-                                            <p className="card-text">Rs. {product.price}</p>
+                    <div className='scrollable-content'>
+                        {loading ? (
+                            <p>Loading...</p>
+                        ) : products.length === 0 ? (
+                            <p>Product not available.</p>
+                        ) : (
+                            <div className="row">
+                                {products.map((product) => (
+                                    <div key={product.id} className="col-md-4 mb-4">
+                                        <div className="card" style={{ width: '15rem', height: '30rem' }}>
+                                            <img
+                                                src={product.image_url}
+                                                className="card-img-top"
+                                                alt="..."
+                                                style={{ width: '15rem', height: '200px' }}
+                                            />
+                                            <div className="card-body">
+                                                <h5 className="card-title">{product.name}</h5>
+                                                <p className="card-text">{product.description}</p>
+                                                <p className="card-text">Rs. {product.price}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     )

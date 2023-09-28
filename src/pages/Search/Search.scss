@@ -1,12 +1,14 @@
-::-webkit-scrollbar {
-    width: 0;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-
-body{
+  .no-scroll-body {
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
     overflow: hidden;
+}
+.scrollable-content {
+  overflow-y: auto !important;
+  max-height: calc(100vh - 200px); 
 }
