@@ -1,36 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { getMessages, sendMessage } from '../../api/messages';
 import { useParams, Link } from 'react-router-dom';
+import InfiniteScroll from "react-infinite-scroller";
+import { FadeLoader } from 'react-spinners';
 import './Chat.scss';
 
 const Chat = ({ }) => {
   const { username } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [offset, setOffset] = useState(0);
+  const chatContainerRef = useRef(null);
 
-  const fetchChat = () => {
+  const fetchChat = async () => {
     // Fetch inbox messages when the component mounts
-    getMessages(username)
+    getMessages(username, offset)
       .then((data) => {
-        setMessages(data);
-        console.log(data);
+        setMessages((prevMessages) => {
+          const newData = data.filter((newMessage) => {
+            return !prevMessages.some((existingMessage) => existingMessage.id === newMessage.id);
+          });
+
+          return [...prevMessages, ...newData];
+        });
+        if (data.length !== 20) {
+          setIsAvailable(false);
+        }
       })
       .catch((error) => {
         console.error('Error fetching chat messages:', error);
+      }).finally(() => {
+        setOffset(offset + 20);
       });
   };
 
-  useEffect(() => {
-    // Fetch chat messages when the component mounts
-    return () => {
-      fetchChat();
-    };
-  }, [username]); // Re-fetch messages when the username changes
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     // Send a new message
-    const trimmedMessage= newMessage.trim();
+    const trimmedMessage = newMessage.trim();
 
     if (trimmedMessage === '') {
       return;
@@ -45,17 +54,17 @@ const Chat = ({ }) => {
       .then(() => {
         // Clear the input field and fetch updated messages
         setNewMessage('');
-        getMessages(username)
-          .then((data) => {
-            setMessages(data);
-          })
-          .catch((error) => {
-            console.error('Error fetching chat messages:', error);
-          });
+        setMessages([]);
+        setIsAvailable(true);
+        setOffset(0);
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
       })
       .catch((error) => {
-        console.error('Error sending message:', error);
-      });
+        console.error(error);
+      })
+    fetchChat();
   };
 
   return (
@@ -66,47 +75,59 @@ const Chat = ({ }) => {
       </div>
       <div className='chat-box'>
         <div className='chat-messages list-group'>
-          <div className='scrollable-content-chat'>
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className='message list-group-item'
-              >
-                <div className={`${message.sent ? 'sent' : 'received'}`}>
-                <div className="message-data">
-                  <p>{message.content}</p>
-                  {/* <p>{`${new Date(message.created_at).toLocaleDateString()} ${new Date(message.created_at).toLocaleTimeString()}`}</p> */}
-                  <p className='time'>{`${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} `}</p>
-                  <p className='time'>{`${new Date(message.created_at).toLocaleDateString()} `}</p>
-
+          <div className='scrollable-content-chat' ref={chatContainerRef}>
+            <InfiniteScroll
+              dataLength={messages.length}
+              loadMore={fetchChat}
+              hasMore={isAvailable}
+              loader={
+                <div className="loader d-flex justify-content-center">
+                  <FadeLoader color="#000000" size={50} />
                 </div>
+              }
+              isReverse={true}
+              useWindow={false}
+            >
+              {[...messages].reverse().map((message) => (
+                <div
+                  key={message.id}
+                  className='message list-group-item'
+                >
+                  <div className={`${message.sent ? 'sent' : 'received'}`}>
+                    <div className="message-data">
+                      <p>{message.content}</p>
+                      <p className='time'>{`${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} `}</p>
+                      <p className='time'>{`${new Date(message.created_at).toLocaleDateString()} `}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </InfiniteScroll>
           </div>
         </div>
-        <form onSubmit={handleSendMessage}>
-          <div className='input-box'>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Type a message...'
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-            />
-            <div className='input-group-append'>
-              <button
-                className='btn btn-primary'
-                type='submit'
-              >
-                Send
-              </button>
-            </div>
-          </div>
-        </form>
-
       </div>
-    </div>
+
+      <form onSubmit={handleSendMessage}>
+        <div className='input-box'>
+          <input
+            type='text'
+            className='form-control'
+            placeholder='Type a message...'
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <div className='input-group-append'>
+            <button
+              className='btn btn-primary'
+              type='submit'
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div >
   );
 };
 export default Chat;

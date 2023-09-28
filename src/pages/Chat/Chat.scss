@@ -1,5 +1,5 @@
 .scrollable-content-chat {
-  overflow-y: scroll !important;
+  overflow: auto !important;
   height: calc(95vh - 220px); 
 }
 
