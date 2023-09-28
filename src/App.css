@@ -1,8 +1,9 @@
-.main{
+.main {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: start;
     align-items: center;
     min-height: 100vh;
     margin: 0 10vw;
-    margin-top: 10vh;;
+    margin-top: 100px;
 }
