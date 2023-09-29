@@ -13,7 +13,7 @@ const Chat = ({ }) => {
   const [offset, setOffset] = useState(0);
   const chatContainerRef = useRef(null);
 
-  const fetchChat = async () => {
+  const fetchChat = () => {
     // Fetch inbox messages when the component mounts
     getMessages(username, offset)
       .then((data) => {
@@ -77,7 +77,6 @@ const Chat = ({ }) => {
         <div className='chat-messages list-group'>
           <div className='scrollable-content-chat' ref={chatContainerRef}>
             <InfiniteScroll
-              dataLength={messages.length}
               loadMore={fetchChat}
               hasMore={isAvailable}
               loader={
