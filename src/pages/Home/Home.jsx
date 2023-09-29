@@ -4,65 +4,120 @@ import { getProducts } from '../../api/products';
 import './Home.scss';
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const [mostViewedProducts, setMostViewedProducts] = useState([]);
+  const [latestProducts, setLatestProducts] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [isAvailable, setIsAvailable] = useState(true);
 
-  const fetchProducts = (newOffset) => {
+
+  const fetchProducts = async (newOffset = 0) => {
+    setOffset(newOffset);
     getProducts(newOffset)
       .then((data) => {
-        setProducts((prevProducts) => [...prevProducts, ...data]);
-        setOffset(newOffset);
+        setMostViewedProducts((prevProducts) => [...prevProducts, ...data]);
       })
       .catch((error) => {
         console.error('Error fetching products:', error);
+        setIsAvailable(false);
       });
+    getProducts(newOffset, 'Latest')
+      .then((data) => {
+        setLatestProducts((prevProducts) => [...prevProducts, ...data]);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+        setIsAvailable(false);
+      });
+    setLoading(false);
   };
 
   useEffect(() => {
     // Fetch initial products data
-    return () => fetchProducts(0);
+    return () => {
+      fetchProducts();
+      setLatestProducts([]);
+      setMostViewedProducts([]);
+    }
   }, []);
 
   const handleLoadMore = () => {
-    // Increase the offset to load more products
-    const newOffset = offset + 20; // Adjust the number to the desired batch size
-    fetchProducts(newOffset);
+    const fetchData = async () => {
+      const newOffset = offset + 20;
+      await fetchProducts(newOffset);
+    };
+    fetchData();
+    if (isAvailable) {
+      alert('No more products available.');
+    }
   };
 
   return (
-    <div className='products'>
-      {products.length === 0 ? (
+    <div className='product container-fluid'>
+      {loading ? (
         <p>Loading...</p>
-        ) : (
-          <div className='row'>
-          {products.map((product) => (
-            <div key={product.id} className='col-md-3 mb-4'>
-              <div className='card' style={{ width: '15rem', height: '30rem'}}>
-                <img
-                  src={product.image_url}
-                  className='card-img-top'
-                  alt='...'
-                  style={{ width: '15rem', height: '200px' }}
+      ) : mostViewedProducts.length === 0 && latestProducts.length === 0 ? (
+        <p>No products available</p>
+      ) : (
+        <div className="scrollable-content">
+          <h2>Most Viewed Products</h2>
+          <div className='row mt-5'>
+            {mostViewedProducts.map((product) => (
+              <div key={product.id} className='col-md-3 mb-4'>
+                <div className='card' style={{ width: '15rem', height: '30rem' }}>
+                  <img
+                    src={product.image_url}
+                    className='card-img-top'
+                    alt='...'
+                    style={{ width: '15rem', height: '200px' }}
                   />
-                <div className='card-body'>
-                  <h5 className='card-title'>{product.name}</h5>
-                  <p className='card-text'>{product.description}</p>
-                  <p className='card-text'>{product.price}</p>
+                  <div className='card-body'>
+                    <h5 className='card-title'>{product.name}</h5>
+                    <p className='card-text justify-text'>
+                      {product.description.length > 100
+                        ? `${product.description.slice(0, 100)} ...`
+                        : product.description}
+                    </p>
+
+                    <p className='card-text position-absolute bottom-0 mb-5'>Rs. {product.price}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <h2>Latest Products </h2>
+          <div className='row mt-5'>
+            {latestProducts.map((product) => (
+              <div key={product.id} className='col-md-3 mb-4'>
+                <div className='card' style={{ width: '15rem', height: '30rem' }}>
+                  <img
+                    src={product.image_url}
+                    className='card-img-top'
+                    alt='...'
+                    style={{ width: '15rem', height: '200px' }}
+                  />
+                  <div className='card-body'>
+                    <h5 className='card-title'>{product.name}</h5>
+                    <p className='card-text'>{product.description}</p>
+                    <p className='card-text'>Rs. {product.price}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {
+            isAvailable ? (
+              <div className='text-center'>
+                <button className='btn btn-primary mt-3' onClick={handleLoadMore}>
+                  Load More
+                </button>
+              </div>
+            ) : (<p></p>)
+          }
         </div>
       )}
-   {products.length !== 0 ? (
-     <div className='text-center'>
-     <button className='btn btn-primary mt-3' onClick={handleLoadMore}>
-       Load More
-     </button>
-   </div>
-   ):(<div></div>)}
- </div>
-  );
+    </div>
+  )
 };
 
 export default Home;
