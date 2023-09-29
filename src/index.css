@@ -23,3 +23,7 @@ code {
   overflow-y: auto !important;
   min-height: 85vh; 
 }
+scrollable-content-image {
+  overflow-y: auto !important;
+  min-height: 75vh; 
+}
