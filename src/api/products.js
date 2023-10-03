@@ -1,10 +1,16 @@
 import api from './index';
 
-export async function getProducts(offset,sortBy=null) {
+export async function getProducts(offset,sortBy=null, user_id=null, all=false) {
     try {
         let query = `/products/?skip=${offset}`
         if (sortBy){
           query+='&sortby=latest'
+        }
+        if (user_id){
+          query+=`&user_id=${user_id}`
+        }
+        if (all){
+          query+=`&all=${all}`
         }
         const response = await api.get(query);
         return response.data;

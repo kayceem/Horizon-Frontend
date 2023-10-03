@@ -20,10 +20,22 @@ code {
     monospace;
 }
 .scrollable-content {
-  overflow-y: auto !important;
-  min-height: 85vh; 
+  overflow: auto !important;
+  height: 75vh; 
 }
-scrollable-content-image {
-  overflow-y: auto !important;
-  min-height: 75vh; 
+input, textarea, button:focus{
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.form-control:focus {
+  border-color: rgb(99, 99, 99); 
+  outline: none !important;
+  box-shadow: none !important;
+}  
+.vh-85{
+  height: 85vh !important;
+}
+.vh-95{
+  height: calc(95vh - 220px) !important; 
+
 }

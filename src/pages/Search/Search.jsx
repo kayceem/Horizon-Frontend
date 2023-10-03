@@ -3,6 +3,8 @@ import { searchProducts } from '../../api/search';
 import { getCategory } from '../../api/category';
 import { useLocation } from 'react-router-dom';
 import './Search.scss';
+import Products from '../Products/Products';
+import { FadeLoader } from 'react-spinners';
 
 const Search = () => {
     const location = useLocation();
@@ -17,8 +19,17 @@ const Search = () => {
     const [offset, setOffset] = useState(queryParams.get('offset') || null);
     const [sortBy, setSortBy] = useState(queryParams.get('sortby') || '');
     const [categoryId, setCategoryId] = useState(queryParams.get('c_id') || '');
+    const [condition, setCondition] = useState(queryParams.get('condition') || '');
     const [limit, setLimit] = useState(queryParams.get('limit') || 40);
 
+    const conditions = [
+        { id: 1, name: 'Brand new' },
+        { id: 2, name: 'Like new' },
+        { id: 3, name: 'Used' },
+        { id: 4, name: 'Not Working' },
+        { id: 5, name: 'Digital Product' },
+        { id: 6, name: 'Unspecified' }
+    ]
 
     const fetchCategories = () => {
         getCategory()
@@ -33,7 +44,8 @@ const Search = () => {
     // Function to fetch products based on search parameters
     const fetchProducts = () => {
         setProducts([]);
-        searchProducts(keyword, minPrice, maxPrice, offset, sortBy, categoryId, limit)
+        setLoading(true);
+        searchProducts(keyword, minPrice, maxPrice, offset, sortBy, categoryId, condition, limit)
             .then((data) => {
                 setProducts([...data]);
             })
@@ -113,7 +125,7 @@ const Search = () => {
                                     onChange={(e) => setMaxPrice(e.target.value)}
                                 />
                             </div>
-                            <div className="form-group mb-2">
+                            <div className="form-group mb-3">
                                 <label>Category:</label>
                                 <select
                                     className="form-control"
@@ -124,6 +136,21 @@ const Search = () => {
                                     {categories.map((category) => (
                                         <option key={category.id} value={category.id}>
                                             {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group mb-3">
+                                <label>Condition:</label>
+                                <select
+                                    className="form-control"
+                                    value={condition}
+                                    onChange={(e) => setCondition(e.target.value)}
+                                >
+                                    <option value="">Select</option>
+                                    {conditions.map((condition) => (
+                                        <option key={condition.id} value={condition.name}>
+                                            {condition.name}
                                         </option>
                                     ))}
                                 </select>
@@ -142,29 +169,11 @@ const Search = () => {
                 <div className="products col-md-9">
                     <div className='scrollable-content'>
                         {loading ? (
-                            <p>Loading...</p>
+                            <p className='d-flex justify-content-center'><FadeLoader color="#000000" size={50} /></p>
                         ) : products.length === 0 ? (
                             <p>Product not available.</p>
                         ) : (
-                            <div className="row">
-                                {products.map((product) => (
-                                    <div key={product.id} className="col-md-4 mb-4">
-                                        <div className="card" style={{ width: '15rem', height: '30rem' }}>
-                                            <img
-                                                src={product.image_url}
-                                                className="card-img-top"
-                                                alt="..."
-                                                style={{ width: '15rem', height: '200px' }}
-                                            />
-                                            <div className="card-body">
-                                                <h5 className="card-title">{product.name}</h5>
-                                                <p className="card-text">{product.description}</p>
-                                                <p className="card-text">Rs. {product.price}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                            <Products products={products} expand={true} />
                         )}
                     </div>
                 </div>

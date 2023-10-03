@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { LuMessageSquare } from "react-icons/lu";
-import { BsHeart, BsPerson } from "react-icons/bs";
-import { Dropdown, Button } from 'react-bootstrap';
+import { BiMessageSquareDetail } from "react-icons/bi";
+import { AiOutlineHeart } from "react-icons/ai";
+import { IoMdPerson } from "react-icons/io";
+import { Dropdown} from 'react-bootstrap';
 import { Link } from 'react-router-dom'
+import AddProductModal from '../AddProduct/AddProductModal';
 import './Navbar.scss'
 
 const Navbar = () => {
@@ -14,15 +16,26 @@ const Navbar = () => {
         e.preventDefault();
         // Trim the query to remove leading and trailing whitespace
         const trimmedQuery = query.trim();
-    
+
         if (trimmedQuery !== '') {
-          console.log(`Navigation ${trimmedQuery}`);
-          navigate(`/search?kwd=${encodeURIComponent(trimmedQuery)}`);
+            console.log(`Navigation ${trimmedQuery}`);
+            navigate(`/search?kwd=${encodeURIComponent(trimmedQuery)}`);
         } else {
-          // Optionally, you can display an error message or prevent the submission
-          console.log('Empty search query. Please enter a search term.');
+            // Optionally, you can display an error message or prevent the submission
+            console.log('Empty search query. Please enter a search term.');
         }
-    }
+    };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
 
     const handleInputChange = (e) => {
         setQuery(e.target.value);
@@ -47,21 +60,25 @@ const Navbar = () => {
                                 value={query}
                                 onChange={handleInputChange}
                             />
-                            <button className="btn btn-outline-success" type="submit">
+                            <button className="btn btn-dark" type="submit">
                                 Search
                             </button>
                         </form>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
-                        <Link to='/inbox' className='me-5 light-icon'>
-                            <LuMessageSquare size={24} />
+                        <div className=' me-5'>
+                        <button className="btn btn-dark" onClick={toggleModal}>Add Product</button>
+                        <AddProductModal isModalOpen={isModalOpen} closeModal={closeModal} />
+                        </div>
+                        <Link to='/inbox' className='light-icon me-4'>
+                            <BiMessageSquareDetail size={24} />
                         </Link>
-                        <Link to='/wishlist' className='me-4 light-icon'>
-                            <BsHeart size={24} />
+                        <Link to='/wishlist' className='light-icon me-4'>
+                            <AiOutlineHeart size={24} />
                         </Link>
                         <Dropdown className="profile-dropdown">
-                            <Dropdown.Toggle variant='dark' id='profile-dropdown'>
-                                <BsPerson size={30} />
+                            <Dropdown.Toggle variant='dark' className='p-0 me-4' id='profile-dropdown'>
+                                <IoMdPerson size={24} />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item as={Link} to='/profile'>

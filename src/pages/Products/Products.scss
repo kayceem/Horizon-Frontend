@@ -1,0 +1,37 @@
+.wish-list-heart{
+    background: none;
+    border: none;
+    transition: 0.2s ease-out;
+  }
+   .kebab-menu {
+    .dropdown-toggle {
+        background-color: transparent !important; 
+        border: none; 
+    }
+    .dropdown-toggle::after {
+      display: none; 
+    }
+    .dropdown-menu {
+      border: none; 
+      // box-shadow: none; 
+      background-color: rgb(205, 205, 205);
+    }
+  }
+  .product-condition{
+    background-color: rgb(176, 176, 176);
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+  .sold-overlay {
+    background-color: rgba(0, 0, 0, 0.4); /* Adjust the opacity as needed */
+    img{
+      opacity: 40%;
+    }
+    .product-condition{
+      opacity: 40%;
+    }
+  }
+  .card-title{
+    font-size: 1.1rem;
+  }

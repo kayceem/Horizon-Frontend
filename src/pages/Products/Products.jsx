@@ -1,77 +1,154 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-// import { searchProducts } from '../../api/search';
-import { uploadImage } from '../../api/images';
-// import { getInbox, getMessages, sendMessage } from '../../api/messages';
-import { getWishList, addToWishList, deleteFromWishList } from '../../api/wishlist';
-// import { getGivenReviews,getReceivedReviews,getReceivedReviewsById, createReview } from '../../api/reviews';
+import React, { useState, useEffect } from 'react';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { BiDotsVerticalRounded } from 'react-icons/bi';
+import { addToWishList, deleteFromWishList } from '../../api/wishlist';
+import backendBaseUrl from '../../config';
+import './Products.scss';
+import { Dropdown } from 'react-bootstrap';
+import { deleteProduct, updateProduct } from '../../api/products';
+import EditProductModal from '../../components/EditProduct/EditProductModal';
 
+const Products = ({ products, setProducts, expand=false, profile=false }) => {
+  // Create a state variable to store the wishlisted status for each product
+  const [wishlistedProducts, setWishlistedProducts] = useState([]);
+  const conditionColors =
+  {
+    'Brand new': 'rgb(156, 243, 89)',
+    'Like new': 'rgb(177, 205, 156)',
+    'Used': 'rgb(244, 217, 159)',
+    'Not Working': 'rgb(232, 142, 142)',
+    'Digital Product': 'rgb(140, 240, 240)',
+    'Unspecified': 'gray'
+  }
+  const colClass = expand ? 'col-md-4' : 'col-md-3';
 
-const Products = () => {
-    const productData ={
-      'product_id':30
-    }	
-    const testFunction = () => {
-        getWishList()
-          .then((data) => {
-            console.log(data)
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-      };
-      const [selectedImage, setSelectedImage] = useState(null);
+  // Function to check if a product is wishlisted
+  const isProductWishlisted = (productId) => {
+    return wishlistedProducts.includes(productId);
+  };
 
-      const [imagePreview, setImagePreview] = useState(null);
+  // Function to handle adding/removing a product from the wishlist
+  const handleToggleWishlist = (productId) => {
+    if (isProductWishlisted(productId)) {
+      // Remove from wishlist
+      deleteFromWishList({ product_id: productId })
+        .then(() => {
+          setWishlistedProducts((prevProducts) =>
+            prevProducts.filter((id) => id !== productId)
+          );
+        })
+        .catch((error) => {
+          console.error('Error removing from wishlist:', error);
+        });
+    } else {
+      // Add to wishlist
+      addToWishList({ product_id: productId })
+        .then(() => {
+          setWishlistedProducts((prevProducts) => [...prevProducts, productId]);
+        })
+        .catch((error) => {
+          console.error('Error adding to wishlist:', error);
+        });
+    }
+  };
 
-      const handleImageChange = (e) => {
-        setSelectedImage(null);
-        const file = e.target.files[0];
-        setSelectedImage(file);
-        try{
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            setImagePreview(event.target.result);
-          };
-          reader.readAsDataURL(file);
-        }
-        catch(error){
-          setImagePreview(null);
-        }
-      };
-      const handleImageUpload = async () => {
-        if (!selectedImage) {
-          alert('Please select an image first.');
-          return;
-        }
-          uploadImage(selectedImage)
-            .then((data) => {
-              console.log(data)
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-          setImagePreview(null);
-          setSelectedImage(null);
+  const handleAvailability = (product) =>{
+    product.available = !product.available;
+    updateProduct(product, product.id)
+    .then(() => {
+      setProducts((prevData) => prevData.map((item) => (item.id === product.id ?  product : item))
+);
 
-      }
+    })
+    .catch((error) => {
+      console.error('Error marking product: ', error);
+    });
+  };
 
-      // useEffect(() => {
-      //   // Fetch initial products data
-      //   return () => testFunction();
-      // }, []);
-    
-      return (
-        <div>
-          <h2>Image Upload</h2>
-          {imagePreview && (
-        <img src={imagePreview} alt="Selected" style={{ maxWidth: '50%', maxHeight: '500px' }} />
-      )}
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          <button onClick={handleImageUpload}>Upload Image</button>
+  const handleDelete = (product) =>{
+    deleteProduct(product.id)
+    .then(() => {
+      setProducts((prevData) => prevData.filter((item) => item !== product));
+    })
+    .catch((error) => {
+      console.error('Error marking product: ', error);
+    });
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState(false);
+
+  const toggleModal = (product) => {
+    setCurrentProduct(product);
+      setIsModalOpen(!isModalOpen);
+  };
+
+  const closeModal = () => {
+      setIsModalOpen(false);
+  };
+
+  
+  
+  // Initialize the wishlisted products when the component mounts
+  useEffect(() => {
+    const initialWishlistedProducts = products
+      .filter((product) => product.wishlisted)
+      .map((product) => product.id);
+    setWishlistedProducts(initialWishlistedProducts);
+  }, [products]);
+
+  return (
+    <div className='row mt-4'>
+      {products?.map((product) => (
+        <div key={product.id} className={`mb-4 ${colClass}`}>
+          <div className={`card w-100 h-100 justify-content-center d-flex  ${product.available ? '' : 'sold-overlay'}`}>
+            <div style={{ height: '30vh' }}>
+            <img
+              src={`${product.image_url}`}
+              className='card-img-top border rounded w-100'
+              alt='...'
+              style={{ height: '30vh' }}
+              />
+              </div>
+            <div className='card-body w-100 '>
+              <h5 className='card-title'>
+                {product.name.length > 50 ? `${product.name.slice(0, 50)} ...` : product.name}
+              </h5>
+              <small className='card-text product-condition' style={{ backgroundColor: conditionColors[product.condition] }}>{product.condition}</small>
+              <div className='d-flex justify-content-between align-items-center mt-4'>
+                <p className='card-text'>Rs. {product.price}</p>
+                {
+                  profile ? (
+                    <Dropdown className=' kebab-menu'>
+                    <Dropdown.Toggle variant="dark" className="p-0" id="product-dropdown">
+                      <BiDotsVerticalRounded  color="#000000" size={22} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => toggleModal(product)}>Edit</Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleAvailability(product)}>{product.available ? (<p className='m-0'>Mark as Sold</p>):(<p className='m-0'> Mark as Available</p>)}</Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleDelete(product)}>Delete</Dropdown.Item>
+                      <EditProductModal isModalOpen={isModalOpen} closeModal={closeModal} product={currentProduct} />
+                    </Dropdown.Menu>
+                  </Dropdown>
+
+                  ) : (
+                    <button className='wish-list-heart' onClick={() => handleToggleWishlist(product.id)}>
+                      {isProductWishlisted(product.id) ? (
+                        <AiFillHeart size={22} />
+                      ) : (
+                        <AiOutlineHeart size={22} />
+                      )}
+                    </button>
+
+                  )
+                }
+              </div>
+            </div>
+          </div>
         </div>
-      );
-    
-}
+      ))}
+    </div>
+  );
+};
 
 export default Products;

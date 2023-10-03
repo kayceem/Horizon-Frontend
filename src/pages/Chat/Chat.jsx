@@ -75,7 +75,7 @@ const Chat = ({ }) => {
       </div>
       <div className='chat-box'>
         <div className='chat-messages list-group'>
-          <div className='scrollable-content-chat' ref={chatContainerRef}>
+          <div className='scrollable-content vh-95' ref={chatContainerRef}>
             <InfiniteScroll
               loadMore={fetchChat}
               hasMore={isAvailable}

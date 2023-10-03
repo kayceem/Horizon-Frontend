@@ -1,6 +1,6 @@
 import api from './index';
 
-export async function searchProducts(kwd=null,min_price=null, max_price=null, offset=null, sortby=null, c_id=null, limit=40) {
+export async function searchProducts(kwd=null,min_price=null, max_price=null, offset=null, sortby=null, c_id=null, condition=null, limit=40) {
     try {
         if (kwd == null)
             throw new Error("Invalid search")
@@ -15,6 +15,8 @@ export async function searchProducts(kwd=null,min_price=null, max_price=null, of
             query+=`&c_id=${c_id}`
         if (offset !== null)
             query+=`&skip=${offset}`
+        if (condition !== null)
+            query+=`&condition=${condition}`
         query+=`&limit=${limit}`
 
         const response = await api.get(`/search?${query}`);

@@ -1,9 +1,10 @@
 // AddProductModal.js
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import AddProduct from './AddProduct';
+import './AddProduct.scss';
+import {RxCross1} from 'react-icons/rx';
 
-// Initialize the react-modal root element
 Modal.setAppElement('#root');
 
 const AddProductModal = ({ isModalOpen, closeModal }) => {
@@ -12,20 +13,22 @@ const AddProductModal = ({ isModalOpen, closeModal }) => {
       isOpen={isModalOpen}
       onRequestClose={closeModal}
       contentLabel="Add Product Modal"
+      className="custom-modal"
+      overlayClassName="custom-modal-overlay"
+      shouldCloseOnOverlayClick={false} 
     >
-      <div className="modal-content">
+      <div className="modal-content scrollable-content">
         <div className="modal-header">
-          <h5 className="modal-title">Add Product</h5>
+          <h5 className="modal-title">Add Product Listing </h5>
           <button
             type="button"
             className="close"
             onClick={closeModal}
           >
-            <span>&times;</span>
+            <RxCross1 size={'20px'}/>
           </button>
         </div>
         <div className="modal-body">
-          {/* Render your AddProduct content here */}
           {isModalOpen && <AddProduct closeModal={closeModal} />}
         </div>
       </div>
