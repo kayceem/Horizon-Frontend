@@ -7,30 +7,35 @@ import Login from './pages/Login/Login';
 import Navbar from './components/Navbar/Navbar';
 import Inbox from './pages/Inbox/Inbox';
 import Chat from './pages/Chat/Chat';
+import Product from './pages/Product/Product';
 import Wishlist from './pages/Wishlist/Wishlist';
 import Profile from './pages/Profile/Profile';
 import Search from './pages/Search/Search';
 import Error404 from './pages/Error404/Error404';
 import { AuthProvider } from './context/AuthContext';
+import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 
 const App = () => {
     return (<
         div className='main' >
         <AuthProvider>
-        <Router>
+            <Router>
                 <Navbar />
                 <Routes >
                     <Route path="/" element={<Home />} />
-                    <Route path="/chat/:username" element={<Chat />} />
-                    <Route path="/inbox" element={<Inbox />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/profile" element={<Profile />} />
                     <Route path="/search" element={<Search />} />
                     <Route path="/signup" element={<Signup />} />
-                    <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="/product/:id" element={<Product />} />
                     <Route path="*" element={<Error404 />} />
+                    <Route element={<ProtectedRoutes />}>
+                        <Route path="/inbox" element={<Inbox />} />
+                        <Route path="/chat/:username" element={<Chat />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
+                        <Route path="/profile" element={<Profile />} />
+                    </Route>
                 </Routes>
-                </Router>
+            </Router>
         </AuthProvider>
     </div>
     );

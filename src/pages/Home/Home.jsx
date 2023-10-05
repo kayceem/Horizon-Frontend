@@ -4,82 +4,100 @@ import { getProducts } from '../../api/products';
 import Products from '../../components/Products/Products';
 import './Home.scss';
 import Loader from '../../components/Loader/Loader';
+import { AdCarousel, AdHero } from '../../components/AdUi/AdUI';
+import Footer from '../../components/Footer/Footer';
 
 const Home = () => {
   const [mostViewedProducts, setMostViewedProducts] = useState([]);
   const [latestProducts, setLatestProducts] = useState([]);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingLoadMore, setLoadingLoadMore] = useState(false);
   const [isAvailable, setIsAvailable] = useState(true);
 
 
-  const fetchProducts = async (newOffset = 0) => {
+  const fetchMostViewedProducts = async () => {
+      getProducts(offset)
+      .then((data) => {
+        setMostViewedProducts(data);
+      })
+      .catch((error) => {
+          console.error('Error fetching products:', error);
+        });
+  };
+  const fetchLatestProducts = async (newOffset=0) => {
     setOffset(newOffset);
-    setLoading(true);
-    getProducts(newOffset)
-      .then((data) => {
-        setMostViewedProducts((prevProducts) => [...prevProducts, ...data]);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
-        setIsAvailable(false);
-      });
     getProducts(newOffset, 'Latest')
-      .then((data) => {
-        setLatestProducts((prevProducts) => [...prevProducts, ...data]);
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error);
+    .then((data) => {
+      setLatestProducts((prevProducts) => [...prevProducts, ...data]);
+      if(data.length!==18){
         setIsAvailable(false);
-      })
-      .finally(()=>{
-        setLoading(false);
-      });
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+    });
   };
 
+  const fetchData = async () => {
+    setLoading(true);
+    fetchMostViewedProducts();
+    fetchLatestProducts()
+    .finally(()=>{
+      setLoading(false);
+    });
+  };
+  
   useEffect(() => {
     // Fetch initial products data
     return () => {
-      fetchProducts();
+      fetchData();
       setLatestProducts([]);
       setMostViewedProducts([]);
     }
   }, []);
 
-  const fetchData = async () => {
-    const newOffset = offset + 20;
-    await fetchProducts(newOffset);
-  };
   const handleLoadMore = () => {
-    fetchData();
-    if (isAvailable) {
-      alert('No more products available.');
-    }
+    setLoadingLoadMore(true);
+    const newOffset = offset + 18;
+    fetchLatestProducts(newOffset)
+    .finally(()=>{
+      setLoadingLoadMore(false);
+    })
   };
 
+  
   return (
-    <div className='product container-fluid'>
+    <div className="scrollable-content vh-85">
+        <AdCarousel/>
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : mostViewedProducts.length === 0 && latestProducts.length === 0 ? (
         <p className='d-flex justify-content-center'>No products available :(</p>
       ) : (
-        <div className="scrollable-content vh-85">
-          <h2>Trending Products</h2>
+        <div className='product container-fluid'>
+          <h2 className='d-flex justify-content-center align-items-center m-5 pt-5'>Featured Products</h2>
           <Products products={mostViewedProducts} />
-          <h2>Newly Added </h2>
+          <AdHero/>
+          <h2 className='d-flex justify-content-center align-items-center m-5 pt-5'>New Arrivals</h2>
           <Products products={latestProducts} />
-          {
-            isAvailable ? (
-              <div className='text-center'>
-                <button className='btn btn-dark mt-3' onClick={handleLoadMore}>
+            {isAvailable ? (
+              loadingLoadMore ? (
+                <Loader height={false}/>
+                ) : (
+                  <div className='text-center'>
+                <button className='btn btn-dark load-more' onClick={handleLoadMore}>
                   Load More
                 </button>
               </div>
-            ) : (<p></p>)
-          }
+              )
+            ) :(
+              <p></p>
+            )
+}
         </div>
       )}
+      <Footer/>
     </div>
   )
 };

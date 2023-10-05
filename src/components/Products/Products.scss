@@ -18,10 +18,10 @@
     }
   }
   .product-condition{
-    background-color: rgb(176, 176, 176);
+    background-color: rgb(239, 239, 239);
     border-radius: 5px;
     padding: 5px;
-    font-size: 0.65rem;
+    font-size: 0.8rem;
   }
   .sold-overlay {
     color: rgb(83, 48, 48);
@@ -33,15 +33,16 @@
       opacity: 40%;
     }
   }
-  .card-title{
-    font-size: 1.1rem;
-  }
-  .card{
-    border: none;
-  }
+  // .card{
+  //   border: none;
+  // }
   .w-200{
     width: 200px;
   }
   .h-200{
     height: 400px;
+  }
+  .card-link{
+    text-decoration: none !important;
+    color: black;
   }

@@ -35,7 +35,7 @@ const Wishlist = () => {
         <Loader/>
         ) : products.length !==0 ? (
           <div className='scrollable-content'>
-            <Products products={products} />
+            <Products products={products}/>
             </div>
         ) : (
           <p className='d-flex justify-content-center'>Your wishlit is empty :(</p> 

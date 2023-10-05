@@ -19,7 +19,7 @@ const AddProductModal = ({ isModalOpen, closeModal }) => {
     >
       <div className="modal-content scrollable-content">
         <div className="modal-header">
-          <h5 className="modal-title">Add Product Listing </h5>
+          <h5 className="modal-title">Create Product </h5>
           <button
             type="button"
             className="close"

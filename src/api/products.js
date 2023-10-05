@@ -15,7 +15,6 @@ export async function getProducts(offset,sortBy=null, user_id=null, all=false) {
         const response = await api.get(query);
         return response.data;
     } catch (error) {
-        console.log('Error fetching users: ', error.message);
         throw error;
     }
 }
@@ -24,7 +23,6 @@ export async function getProductById(id) {
         const response = await api.get(`/products/${id}`);
         return response.data;
     } catch (error) {
-        console.log('Error fetching users: ', error.message);
         throw error;
     }
 }
@@ -34,7 +32,6 @@ export async function createProduct(productData){
         const response = await api.post('/products/', productData);
         return response.data;
       } catch (error) {
-        console.log('Error creating user: ', error.message);
         throw error;
       }
 }
@@ -44,7 +41,6 @@ export async function updateProduct(productData, id) {
       const response = await api.put(`/products/${id}`, productData);
       return response.data;
     } catch (error) {
-      console.log('Error updating user: ', error.message);
       throw error;
     }
   }
@@ -54,7 +50,6 @@ export async function deleteProduct(id) {
       const response = await api.delete(`/products/${id}`);
       return response.data;
     } catch (error) {
-      console.log('Error updating user: ', error.message);
       throw error;
     }
   }

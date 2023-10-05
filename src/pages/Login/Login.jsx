@@ -3,13 +3,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { login } from '../../api/auth';
 import './Login.scss';
-import { useNavigate  } from 'react-router-dom';
+import { useLocation, useNavigate  } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
 const [errorMessage, setErrorMessage] = useState('');
 const navigate = useNavigate();
 const auth = useAuth();
+const location = useLocation();
+const redirectPath = location.state?.path || '/'
 
   const formik = useFormik({
     initialValues: {
@@ -26,7 +28,7 @@ const auth = useAuth();
           auth.login(data);
           setErrorMessage(''); 
           formik.resetForm();
-          navigate('/');
+          navigate(redirectPath, {replace:true});
         })
        .catch( (error) => {
         setErrorMessage(error.message);

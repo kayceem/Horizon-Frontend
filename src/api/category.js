@@ -5,7 +5,6 @@ export async function getCategory() {
         const response = await api.get(`/category`);
         return response.data;
     } catch (error) {
-        console.log('Error fetching products: ', error.message);
         throw error;
     }
 }

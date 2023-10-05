@@ -20,10 +20,8 @@ export async function searchProducts(kwd=null,min_price=null, max_price=null, of
         query+=`&limit=${limit}`
 
         const response = await api.get(`/search?${query}`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
-        console.log('Error fetching products: ', error.message);
         throw error;
     }
 }

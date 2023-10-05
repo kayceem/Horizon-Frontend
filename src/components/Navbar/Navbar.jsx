@@ -22,7 +22,6 @@ const Navbar = () => {
         const trimmedQuery = query.trim();
 
         if (trimmedQuery !== '') {
-            console.log(`Navigation ${trimmedQuery}`);
             navigate(`/search?kwd=${encodeURIComponent(trimmedQuery)}`);
         } else {
             // Optionally, you can display an error message or prevent the submission
@@ -58,8 +57,8 @@ const Navbar = () => {
       
     return (
         <div className='fixed-top navbar-container'>
-            <nav className="navbar bg-dark border-bottom border-bottom-dark bg-body-tertiary" data-bs-theme="dark">
-                <div className="container-fluid d-flex justify-content-between align-items-center">
+            <nav className="navbar bg-light border-bottom border-bottom-dark bg-body-tertiary" data-bs-theme="dark">
+                <div className="container-fluid d-flex justify-content-between align-items-center m-1">
                     <div className="d-flex">
                         <Link to='/' className='navbar-brand'>
                             {/* <img src="static/assests/logo.png" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" /> */}
@@ -67,7 +66,7 @@ const Navbar = () => {
                         </Link>
                     </div>
                     <div className="d-flex">
-                        <form className="d-flex mt-2" role="search" onSubmit={handleSubmit}>
+                        <form className="d-flex" role="search" onSubmit={handleSubmit}>
                             <input
                                 className="form-control me-2 search-box"
                                 type="search"
@@ -85,7 +84,7 @@ const Navbar = () => {
                         auth.isLoggedIn ? (
                             <div className="d-flex justify-content-between align-items-center">
                                 <div className=' me-5'>
-                                    <button className="btn btn-dark" onClick={toggleModal}>Add Product</button>
+                                    <button className="btn btn-dark small" onClick={toggleModal}>Add Product</button>
                                     <AddProductModal isModalOpen={isModalOpen} closeModal={closeModal} />
                                 </div>
                                 <Link to='/inbox' className='light-icon me-4'>

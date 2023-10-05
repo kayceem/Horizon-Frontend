@@ -1,52 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { getUser } from '../../api/user';
+import React from 'react';
 import './Profile.scss';
 import ProfileTab from '../../components/ProfileTab/ProfileTab';
 import Loader from '../../components/Loader/Loader';
+import { useAuth } from '../../context/AuthContext';
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
-  const [loadingUser, setLoadingUser] = useState(true);
-
-  const fetchUser = () => {
-    setLoadingUser(true);
-    getUser(1)
-      .then((data) => {
-        setUser(data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      })
-      .finally(() => {
-        setLoadingUser(false);
-      });
-  };
-
-
-  useEffect(() => {
-    return () => {
-      fetchUser();
-
-    };
-  }, []);
+  const auth = useAuth();
 
 
   return (
     <div className="container-fluid">
-      {loadingUser ? (
-        <Loader />
-      ) : (
         <div className="row">
           <div className="col-md-3 h-100 divider">
-            <h2>{user?.username}</h2>
+            <h3>{auth.user.first_name} {auth.user.last_name}</h3>
+            <h6>@{auth.user.username}</h6>
+            <h6>Member since: {new Date(auth.user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</h6>
           </div>
-          {/* HERE */}
           <div className="col-md-9">
-            <ProfileTab />
+            {
+              auth.user.id ? (
+                <ProfileTab user_id={auth.user.id}/>
+              ) : (
+                <Loader/>
+              )
+            }
           </div>
         </div>
-      )
-      }
     </div>
   );
 

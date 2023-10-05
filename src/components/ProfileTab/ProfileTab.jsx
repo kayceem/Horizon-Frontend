@@ -6,10 +6,9 @@ import './ProfileTab.scss';
 import ReviewsTab from '../ReviewsTab/ReviewsTab';
 import Loader from '../Loader/Loader';
 
-const ProfileTab = () => {
+const ProfileTab = ({user_id}) => {
     const [products, setProducts] = useState([]);
     const [reviews, setReviews] = useState([]);
-    const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('product');
 
@@ -30,7 +29,8 @@ const ProfileTab = () => {
 
     const fetchProducts = () => {
         setLoading(true);
-        getProducts(offset, 'latest', 1, true)
+        const offset=0;
+        getProducts(offset, 'latest', user_id, true)
             .then((data) => {
                 setProducts([...data]);
             })
@@ -48,10 +48,8 @@ const ProfileTab = () => {
     }
 
     useEffect(() => {
-        return () => {
-            fetchProducts();
-            fetchReviews();
-        };
+        fetchProducts();
+        fetchReviews();
     }, []);
 
     return (

@@ -111,7 +111,7 @@ const AddProduct = ({ closeModal }) => {
       {imageUploadLoading ? (
         // Image Upload Section
         <div className="mb-2 p-4">
-          <h2 className="mb-3">Upload Image</h2>
+          <h2 className="mb-3">Choose Image</h2>
           <div className="scrollable-content">
 
             {imagePreview && (

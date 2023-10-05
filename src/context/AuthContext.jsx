@@ -4,16 +4,17 @@ import Cookies from 'js-cookie';
 const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
-    const[user, setUser] = useState();
+    const [user, setUser] = useState({});
+      
     const[isLoggedIn, setIsLoggedIn] = useState(false);
     
     const login = (userInfo) => {
-        setUser(userInfo)
+        setUser(userInfo);
         setIsLoggedIn(true);
         localStorage.setItem('user', JSON.stringify(userInfo));
     }
     const logout = () => {
-        setUser(null)
+        setUser({})
         setIsLoggedIn(false);
         localStorage.removeItem('user');
         Cookies.remove('access_token');
@@ -35,6 +36,6 @@ export const AuthProvider = ({children}) => {
     );
 };
 
-export const useAuth = ( )=> {
+export const useAuth = () => {
     return useContext(AuthContext);
 }

@@ -45,6 +45,7 @@ label.select-img+input {
 }
 
 .custom-modal-overlay {
+  z-index: 99;
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
   display: flex;
   justify-content: center;
