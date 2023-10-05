@@ -4,10 +4,13 @@ import * as Yup from 'yup';
 import { login } from '../../api/auth';
 import './Login.scss';
 import { useNavigate  } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
 const [errorMessage, setErrorMessage] = useState('');
 const navigate = useNavigate();
+const auth = useAuth();
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -18,14 +21,17 @@ const navigate = useNavigate();
       password: Yup.string().required('Username and password is required')
     }),
     onSubmit: async (values) => {
-      try {
-        await login(values);
-        setErrorMessage(''); 
-        formik.resetForm();
-        navigate('/');
-      } catch (error) {
-        setErrorMessage(error.response.data.detail);;
-      }
+        login(values)
+        .then((data) =>{
+          auth.login(data);
+          setErrorMessage(''); 
+          formik.resetForm();
+          navigate('/');
+        })
+       .catch( (error) => {
+        setErrorMessage(error.message);
+        console.error('Login error:', error);;
+      });
     },
   });
 

@@ -3,14 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { IoMdPerson } from "react-icons/io";
-import { Dropdown} from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import AddProductModal from '../AddProduct/AddProductModal';
+import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss'
+import { logout } from '../../api/auth';
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const auth = useAuth();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +30,6 @@ const Navbar = () => {
         }
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -36,10 +39,23 @@ const Navbar = () => {
         setIsModalOpen(false);
     };
 
-
     const handleInputChange = (e) => {
         setQuery(e.target.value);
     };
+    
+    const handleLogout = () => {
+        logout()
+          .then(() => {
+            auth.logout();
+          })
+          .catch((error) => {
+            console.error('Error during logout: ', error);
+          })
+          .finally(() => {
+            navigate('/login');
+          });
+      };
+      
     return (
         <div className='fixed-top navbar-container'>
             <nav className="navbar bg-dark border-bottom border-bottom-dark bg-body-tertiary" data-bs-theme="dark">
@@ -65,31 +81,46 @@ const Navbar = () => {
                             </button>
                         </form>
                     </div>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <div className=' me-5'>
-                        <button className="btn btn-dark" onClick={toggleModal}>Add Product</button>
-                        <AddProductModal isModalOpen={isModalOpen} closeModal={closeModal} />
-                        </div>
-                        <Link to='/inbox' className='light-icon me-4'>
-                            <BiMessageSquareDetail size={24} />
-                        </Link>
-                        <Link to='/wishlist' className='light-icon me-4'>
-                            <AiOutlineHeart size={24} />
-                        </Link>
-                        <Dropdown className="profile-dropdown">
-                            <Dropdown.Toggle variant='dark' className='p-0 me-4' id='profile-dropdown'>
-                                <IoMdPerson size={24} />
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item as={Link} to='/profile'>
-                                    Profile
-                                </Dropdown.Item>
-                                <Dropdown.Item as={Link} to='/logout'>
-                                    Logout
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
+                    {
+                        auth.isLoggedIn ? (
+                            <div className="d-flex justify-content-between align-items-center">
+                                <div className=' me-5'>
+                                    <button className="btn btn-dark" onClick={toggleModal}>Add Product</button>
+                                    <AddProductModal isModalOpen={isModalOpen} closeModal={closeModal} />
+                                </div>
+                                <Link to='/inbox' className='light-icon me-4'>
+                                    <BiMessageSquareDetail size={24} />
+                                </Link>
+
+                                <Link to='/wishlist' className='light-icon me-4'>
+                                    <AiOutlineHeart size={24} />
+                                </Link>
+                                <Dropdown className="profile-dropdown">
+                                    <Dropdown.Toggle variant='dark' className='p-0 me-4' id='profile-dropdown'>
+                                        <IoMdPerson size={24} />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item as={Link} to='/profile'>
+                                            Profile
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={handleLogout}>
+                                            Logout
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </div>
+                        ) : (
+                            <div className="d-flex justify-content-between align-items-center">
+                                <Link to='/login' className='light-icon me-4'>
+                                    <button className="btn btn-dark" >Login</button>
+                                </Link>
+                                <Link to='/signup' className='light-icon me-4'>
+                                    <button className="btn btn-dark" >Sign up</button>
+                                </Link>
+                            </div>
+                        )
+                    }
+
                 </div>
             </nav>
         </div>
