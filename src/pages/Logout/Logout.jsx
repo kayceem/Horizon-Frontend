@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { logout } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookies';
 
 const Logout = () => {
   const navigate = useNavigate();
@@ -8,8 +9,7 @@ const Logout = () => {
   useEffect(() => {
     logout()
       .then(() => {
-        // Optional: You can add some code here if you want to perform actions
-        // after successful logout.
+        Cookies.remove('access_token');
       })
       .catch((error) => {
         console.error('Error during logout: ', error);

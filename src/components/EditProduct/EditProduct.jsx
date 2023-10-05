@@ -71,7 +71,7 @@ useEffect (()=>{
   };
 
   return (
-    <div className="container-fluid h-100">
+    <div className="container-fluid">
         <div className="mb-2 p-4">
             <img src={`${backendBaseUrl}/${product.image_url}`}
                 className="img-thumbnail mb-3 border rounded p-0"

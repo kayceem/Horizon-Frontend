@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getWishList } from '../../api/wishlist'
-import Products from '../Products/Products';
-import { FadeLoader } from 'react-spinners';
+import Products from '../../components/Products/Products';
+import Loader from '../../components/Loader/Loader';
 
 const Wishlist = () => {
   const [products, setProducts] = useState([]);
@@ -32,7 +32,7 @@ const Wishlist = () => {
     <h1>Wish List</h1>
     {
       loading ? (
-        <p className='d-flex justify-content-center'><FadeLoader color="#000000" size={50} /></p>
+        <Loader/>
         ) : products.length !==0 ? (
           <div className='scrollable-content'>
             <Products products={products} />

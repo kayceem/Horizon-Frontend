@@ -1,0 +1,11 @@
+/* Custom styles for nav pills */
+.custom-nav-pills .nav-link {
+    background-color: #212529;/* Change to your desired background color */
+    color: #fff; /* Change to your desired text color */
+    font-size: 0.7rem;
+  }
+  
+  .custom-nav-pills .nav-link.active {
+    background-color: #707071; /* Change to your desired active background color */
+    color: #fff; /* Change to your desired active text color */
+  }

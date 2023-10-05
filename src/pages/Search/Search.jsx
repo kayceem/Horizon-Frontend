@@ -3,8 +3,8 @@ import { searchProducts } from '../../api/search';
 import { getCategory } from '../../api/category';
 import { useLocation } from 'react-router-dom';
 import './Search.scss';
-import Products from '../Products/Products';
-import { FadeLoader } from 'react-spinners';
+import Products from '../../components/Products/Products';
+import Loader from '../../components/Loader/Loader';
 
 const Search = () => {
     const location = useLocation();
@@ -167,9 +167,9 @@ const Search = () => {
                     </div>
                 </div>
                 <div className="products col-md-9">
-                    <div className='scrollable-content'>
+                    <div className='scrollable-content vh-85'>
                         {loading ? (
-                            <p className='d-flex justify-content-center'><FadeLoader color="#000000" size={50} /></p>
+                           <Loader/>
                         ) : products.length === 0 ? (
                             <p>Product not available.</p>
                         ) : (

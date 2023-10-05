@@ -5,13 +5,13 @@ import Signup from './pages/Signup/Signup';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
-import Products from './pages/Products/Products';
 import Navbar from './components/Navbar/Navbar';
 import Inbox from './pages/Inbox/Inbox';
 import Chat from './pages/Chat/Chat';
 import Wishlist from './pages/Wishlist/Wishlist';
 import Profile from './pages/Profile/Profile';
 import Search from './pages/Search/Search';
+import Error404 from './pages/Error404/Error404';
 
 const App = () => {
     return (<
@@ -24,11 +24,11 @@ const App = () => {
                 <Route path="/inbox" element={<Inbox />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/logout" element={<Logout />} />
-                <Route path="/products" element={<Products />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="*" element={<Error404 />} />
             </Routes>
         </Router>
     </div>

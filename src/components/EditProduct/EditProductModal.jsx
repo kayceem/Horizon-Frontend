@@ -2,6 +2,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 import EditProduct from './EditProduct';
+import '../AddProduct/AddProduct.scss';
 import {RxCross1} from 'react-icons/rx';
 
 Modal.setAppElement('#root');

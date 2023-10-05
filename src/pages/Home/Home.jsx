@@ -1,9 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { getProducts } from '../../api/products';
-import Products from '../Products/Products';
+import Products from '../../components/Products/Products';
 import './Home.scss';
-import { FadeLoader } from 'react-spinners';
+import Loader from '../../components/Loader/Loader';
 
 const Home = () => {
   const [mostViewedProducts, setMostViewedProducts] = useState([]);
@@ -31,8 +31,10 @@ const Home = () => {
       .catch((error) => {
         console.error('Error fetching products:', error);
         setIsAvailable(false);
+      })
+      .finally(()=>{
+        setLoading(false);
       });
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const Home = () => {
   return (
     <div className='product container-fluid'>
       {loading ? (
-        <p className='d-flex justify-content-center'><FadeLoader color="#000000" size={50} /></p>
+        <Loader/>
       ) : mostViewedProducts.length === 0 && latestProducts.length === 0 ? (
         <p className='d-flex justify-content-center'>No products available :(</p>
       ) : (
@@ -70,7 +72,7 @@ const Home = () => {
           {
             isAvailable ? (
               <div className='text-center'>
-                <button className='btn btn-primary mt-3' onClick={handleLoadMore}>
+                <button className='btn btn-dark mt-3' onClick={handleLoadMore}>
                   Load More
                 </button>
               </div>

@@ -21,10 +21,11 @@
     background-color: rgb(176, 176, 176);
     border-radius: 5px;
     padding: 5px;
-    font-size: 0.8rem;
+    font-size: 0.65rem;
   }
   .sold-overlay {
-    background-color: rgba(0, 0, 0, 0.4); /* Adjust the opacity as needed */
+    color: rgb(83, 48, 48);
+    background-color: rgb(251, 251, 251);
     img{
       opacity: 40%;
     }
@@ -34,4 +35,13 @@
   }
   .card-title{
     font-size: 1.1rem;
+  }
+  .card{
+    border: none;
+  }
+  .w-200{
+    width: 200px;
+  }
+  .h-200{
+    height: 400px;
   }

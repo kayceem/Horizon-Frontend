@@ -4,7 +4,7 @@ import { createProduct } from '../../api/products';
 import { getCategory } from '../../api/category';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { FadeLoader } from 'react-spinners';
+import Loader from '../Loader/Loader';
 
 
 const AddProduct = ({ closeModal }) => {
@@ -26,7 +26,7 @@ const AddProduct = ({ closeModal }) => {
       image_url: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Product name is required').matches(/^[a-zA-Z0-9_ ]+$/, 'Product name can only contain numbers, underscores, and alphabets').min(3, 'Product name must be at least 3 characters').max(255,'Product name can not be greater than 255 characters'),
+      name: Yup.string().required('Product name is required').matches(/^[a-zA-Z0-9_ ]+$/, 'Product name can only contain numbers, underscores, and alphabets').min(3, 'Product name must be at least 3 characters').max(255, 'Product name can not be greater than 255 characters'),
       category_id: Yup.string().required('Category is required'),
       condition: Yup.string().required('Condition is required'),
       description: Yup.string(),
@@ -107,7 +107,7 @@ const AddProduct = ({ closeModal }) => {
   };
 
   return (
-    <div className="container-fluid h-100">
+    <div className="container-fluid">
       {imageUploadLoading ? (
         // Image Upload Section
         <div className="mb-2 p-4">
@@ -144,9 +144,7 @@ const AddProduct = ({ closeModal }) => {
 
         </div>
       ) : !imageUploaded ? (
-        <div className="loader d-flex justify-content-center h-100 align-items-center">
-          <FadeLoader color="#000000" size={50} />
-        </div>
+        <Loader />
       ) : (
         // Product Information Section
         <div className="mb-2 p-4">
@@ -211,7 +209,7 @@ const AddProduct = ({ closeModal }) => {
                   </option>
                 ))}
               </select>
-              {formik.touched.category_id && formik.errors.category_id&& <div className='error'>{formik.errors.category_id}</div>}
+              {formik.touched.category_id && formik.errors.category_id && <div className='error'>{formik.errors.category_id}</div>}
 
             </div>
             <div className="form-group mb-2">

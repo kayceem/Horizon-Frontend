@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { getMessages, sendMessage } from '../../api/messages';
 import { useParams, Link } from 'react-router-dom';
 import InfiniteScroll from "react-infinite-scroller";
-import { FadeLoader } from 'react-spinners';
 import './Chat.scss';
+import Loader from '../../components/Loader/Loader';
 
-const Chat = ({ }) => {
+const Chat = () => {
   const { username } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -30,7 +30,8 @@ const Chat = ({ }) => {
       })
       .catch((error) => {
         console.error('Error fetching chat messages:', error);
-      }).finally(() => {
+      })
+      .finally(() => {
         setOffset(offset + 20);
       });
   };
@@ -67,6 +68,21 @@ const Chat = ({ }) => {
     fetchChat();
   };
 
+  const convertToNepalTime = (utcTimestamp) => {
+    const nepalTime = new Date(utcTimestamp);
+    nepalTime.setHours(nepalTime.getHours() + 5);
+    nepalTime.setMinutes(nepalTime.getMinutes() + 45);
+    return nepalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  
+  
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  })
+
   return (
     <div className='container-fluid'>
       <div className='chat-header'>
@@ -80,9 +96,7 @@ const Chat = ({ }) => {
               loadMore={fetchChat}
               hasMore={isAvailable}
               loader={
-                <div className="loader d-flex justify-content-center">
-                  <FadeLoader color="#000000" size={50} />
-                </div>
+                <Loader />
               }
               isReverse={true}
               useWindow={false}
@@ -95,7 +109,7 @@ const Chat = ({ }) => {
                   <div className={`${message.sent ? 'sent' : 'received'}`}>
                     <div className="message-data">
                       <p>{message.content}</p>
-                      <p className='time'>{`${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} `}</p>
+                      <p className='time'>{convertToNepalTime(message.created_at)}</p>
                       <p className='time'>{`${new Date(message.created_at).toLocaleDateString()} `}</p>
                     </div>
                   </div>

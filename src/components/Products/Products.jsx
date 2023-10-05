@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { BiDotsVerticalRounded } from 'react-icons/bi';
-import { addToWishList, deleteFromWishList } from '../../api/wishlist';
 import backendBaseUrl from '../../config';
 import './Products.scss';
 import { Dropdown } from 'react-bootstrap';
 import { deleteProduct, updateProduct } from '../../api/products';
-import EditProductModal from '../../components/EditProduct/EditProductModal';
+import EditProductModal from '../EditProduct/EditProductModal';
+import { deleteFromWishList,addToWishList } from '../../api/wishlist';
 
 const Products = ({ products, setProducts, expand=false, profile=false }) => {
-  // Create a state variable to store the wishlisted status for each product
+  
   const [wishlistedProducts, setWishlistedProducts] = useState([]);
   const conditionColors =
   {
@@ -20,7 +20,7 @@ const Products = ({ products, setProducts, expand=false, profile=false }) => {
     'Digital Product': 'rgb(140, 240, 240)',
     'Unspecified': 'gray'
   }
-  const colClass = expand ? 'col-md-4' : 'col-md-3';
+  const colClass = expand ? 'col-md-3' : 'col-md-2';
 
   // Function to check if a product is wishlisted
   const isProductWishlisted = (productId) => {
@@ -99,15 +99,16 @@ const Products = ({ products, setProducts, expand=false, profile=false }) => {
 
   return (
     <div className='row mt-4'>
-      {products?.map((product) => (
+      {products.map((product) => (
         <div key={product.id} className={`mb-4 ${colClass}`}>
-          <div className={`card w-100 h-100 justify-content-center d-flex  ${product.available ? '' : 'sold-overlay'}`}>
-            <div style={{ height: '30vh' }}>
+          <div className={`card justify-content-center d-flex  ${product.available ? '' : 'sold-overlay'} ${expand ? 'w-200':'w-100'}`}>
+            <div style={{ height: `${expand ? '20vh' : '30vh'}` }}
+>
             <img
               src={`${product.image_url}`}
               className='card-img-top border rounded w-100'
               alt='...'
-              style={{ height: '30vh' }}
+              style={{ height: `${expand ? '20vh' : '30vh'}` }}
               />
               </div>
             <div className='card-body w-100 '>
@@ -115,8 +116,8 @@ const Products = ({ products, setProducts, expand=false, profile=false }) => {
                 {product.name.length > 50 ? `${product.name.slice(0, 50)} ...` : product.name}
               </h5>
               <small className='card-text product-condition' style={{ backgroundColor: conditionColors[product.condition] }}>{product.condition}</small>
-              <div className='d-flex justify-content-between align-items-center mt-4'>
-                <p className='card-text'>Rs. {product.price}</p>
+              <div className='d-flex justify-content-between align-items-center mt-2'>
+                <p className='card-text m-0 mt-4 mb-1'>Rs. {product.price}</p>
                 {
                   profile ? (
                     <Dropdown className=' kebab-menu'>
