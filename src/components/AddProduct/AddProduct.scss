@@ -1,6 +1,6 @@
   label.select-img {
     align-items: center;
-    border: 2px dashed rgb(160, 158, 158);
+    border: 2px dashed rgb(0, 0, 0);
     border-radius: 10px;
     display: flex;
     height: 100%;
@@ -13,7 +13,6 @@ label.select-img+input {
 }
 .select-image{
   align-items: center;
-  background-color: rgb(216, 214, 214);
   border-radius: 10px;
   display: flex;
   height: 120px;
@@ -21,12 +20,27 @@ label.select-img+input {
   position: relative;
   width: 200px;
 }
-.change{
-  height: 40px;
-  width: 150px;
-  border: 1px solid rgb(255, 255, 255) !important;
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Overlay width matches the image width */
+  height: 100%; /* Overlay height matches the image height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(224, 224, 224, 0.5); /* Semi-transparent background */
+  cursor: pointer;
+  color: black;
+  opacity: 0.5;
   border-radius: 10px;
 }
+
 .custom-modal {
   margin-top: 10vh;
   background-color: rgb(255, 255, 255);
@@ -43,6 +57,10 @@ label.select-img+input {
     background-color: rgba(0,0,0,0);
   }
 }
+.review-modal{
+  height: 350px !important;
+}
+
 
 .custom-modal-overlay {
   z-index: 99;

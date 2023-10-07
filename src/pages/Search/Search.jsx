@@ -157,7 +157,7 @@ const Search = () => {
                             </div>
                             <div className="form-group mb-2">
                                 <button
-                                    className="btn btn-primary"
+                                    className="btn btn-dark"
                                     onClick={handleApplyFilters}
                                 >
                                     Apply Filters

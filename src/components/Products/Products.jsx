@@ -115,8 +115,8 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
                 </h5>
                 <small className='card-text product-condition'>{product.condition}</small>
           </Link>
-                <div className='d-flex justify-content-between align-items-center mt-2'>
-                  <p className='card-text m-0 mt-4 mb-1'>Rs. {product.price}</p>
+                <div className='d-flex justify-content-between align-items-center mt-2 mb-2'>
+                  <p className='card-text m-0'>Rs. {product.price}</p>
                   {
                     profile ? (
                       <Dropdown className=' kebab-menu'>

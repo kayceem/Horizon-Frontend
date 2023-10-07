@@ -4,11 +4,13 @@ import { getInbox } from '../../api/messages';
 import { Link } from 'react-router-dom';
 import './Inbox.scss';
 import Loader from '../../components/Loader/Loader';
+import {useAuth} from '../../context/AuthContext';
 
 
 const Inbox = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
   const fetchInbox = () => {
     // Fetch inbox messages when the component mounts
@@ -44,10 +46,12 @@ const Inbox = () => {
                 <Link
                   key={message.id}
                   to={`/chat/${message.username}`}
-                  className='list-group-item list-group-item-action mb-3'
+                  className= {`list-group-item list-group-item-action mb-3 message-content ${
+                    !message.read && message.sender_id !== auth.user.id ? 'unread-message' : ''
+                  }`}
                 >
                   <div className='d-flex w-100 justify-content-between'>
-                    <h5 className='mb-1'>{message.username}</h5>
+                    <h5 className='d-flex align-items-center mb-1'>{message.username} {!message.read && message.sender_id !== auth.user.id && <div className="unread-dot mx-2"></div>} </h5>
                     <small>{new Date(message.created_at).toLocaleDateString()}</small>
                   </div>
                   <p className='mb-1'>

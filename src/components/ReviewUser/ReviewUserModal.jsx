@@ -1,25 +1,25 @@
 // AddProductModal.js
 import React from 'react';
 import Modal from 'react-modal';
-import EditProduct from './EditProduct';
 import '../AddProduct/AddProduct.scss';
 import {RxCross1} from 'react-icons/rx';
+import ReviewUser from './ReviewUser';
 
 Modal.setAppElement('#root');
 
-const EditProductModal = ({ isModalOpen, closeModal, product }) => {
+const ReviewUserModal = ({ isModalOpen, closeModal, revieweeId }) => {
   return (
     <Modal
       isOpen={isModalOpen}
       onRequestClose={closeModal}
-      contentLabel="Edit Product Modal"
-      className="custom-modal"
+      contentLabel="Review User Modal"
+      className="custom-modal review-modal"
       overlayClassName="custom-modal-overlay"
       shouldCloseOnOverlayClick={false} 
     >
       <div className="modal-content scrollable-content">
         <div className="modal-header">
-          <h5 className="modal-title">Edit Product</h5>
+          <h5 className="modal-title">Review User</h5>
           <button
             type="button"
             className="close"
@@ -29,11 +29,11 @@ const EditProductModal = ({ isModalOpen, closeModal, product }) => {
           </button>
         </div>
         <div className="modal-body">
-          {isModalOpen && <EditProduct closeModal={closeModal} product={product} />}
+          {isModalOpen && <ReviewUser revieweeId={revieweeId} closeModal={closeModal} />}
         </div>
       </div>
     </Modal>
   );
 };
 
-export default EditProductModal;
+export default ReviewUserModal;

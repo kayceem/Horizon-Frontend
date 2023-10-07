@@ -1,3 +1,19 @@
 .list-group-item{
     border-radius: 20px;
 }
+
+.message-content{
+  font-style: normal;
+  color: #5a5a5a;
+}
+.unread-message {
+  font-weight: bolder;
+  color: black;
+  // border-color: black;
+  }
+  .unread-dot {
+    width: 12px; /* Adjust the size of the dot as needed */
+    height: 12px; /* Adjust the size of the dot as needed */
+    background-color: #4cabd7; /* Set the color of the dot */
+    border-radius: 50%; /* Makes it a circle */
+  }

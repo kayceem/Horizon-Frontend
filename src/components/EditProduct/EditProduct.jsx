@@ -3,19 +3,11 @@ import { updateProduct} from '../../api/products';
 import { getCategory } from '../../api/category';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import backendBaseUrl from '../../config';
 import '../AddProduct/AddProduct.scss';
+import { conditions } from '../../config';
 
 
 const EditProduct = ({ closeModal, product }) => {
-  const conditions = [
-    { id: 1, name: 'Brand new' },
-    { id: 2, name: 'Like new' },
-    { id: 3, name: 'Used' },
-    { id: 4, name: 'Not Working' },
-    { id: 5, name: 'Digital Product' },
-    { id: 6, name: 'Unspecified' }
-  ]
   const formik = useFormik({
     initialValues: {
       name: product.name,
@@ -73,7 +65,7 @@ useEffect (()=>{
   return (
     <div className="container-fluid">
         <div className="mb-2 p-4">
-            <img src={`${backendBaseUrl}/${product.image_url}`}
+            <img src={`${process.env.REACT_APP_BACKEND_URL}/${product.image_url}`}
                 className="img-thumbnail mb-3 border rounded p-0"
                 alt="Selected Image"
                 style={{ maxWidth: '300px', maxHeight: '200px' }}
@@ -161,7 +153,7 @@ useEffect (()=>{
 
             </div>
             <div>
-              <button className="btn btn-primary mt-4" type='submit'>
+              <button className="btn btn-dark mt-4" type='submit'>
                 Submit Product
               </button>
             </div>

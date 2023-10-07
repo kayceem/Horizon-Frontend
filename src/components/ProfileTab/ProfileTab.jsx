@@ -1,31 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { getProducts } from '../../api/products';
 import ProductsTab from '../ProductsTab/ProductsTab';
-import { getReceivedReviews } from '../../api/reviews';
 import './ProfileTab.scss';
 import ReviewsTab from '../ReviewsTab/ReviewsTab';
 import Loader from '../Loader/Loader';
 
-const ProfileTab = ({user_id}) => {
+const ProfileTab = ({user_id, isProfile}) => {
     const [products, setProducts] = useState([]);
-    const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('product');
-
-    const fetchReviews = () => {
-        setLoading(true);
-        getReceivedReviews()
-            .then((data) => {
-                setReviews([...data]);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-
-    };
 
     const fetchProducts = () => {
         setLoading(true);
@@ -49,7 +32,6 @@ const ProfileTab = ({user_id}) => {
 
     useEffect(() => {
         fetchProducts();
-        fetchReviews();
     }, []);
 
     return (
@@ -83,16 +65,12 @@ const ProfileTab = ({user_id}) => {
                                 products.length === 0 ? (
                                     <p className='d-flex justify-content-center align-items-center'>No products available :(</p>
                                 ) : (
-                                    <ProductsTab products={products} setProducts={setProducts} />
+                                    <ProductsTab products={products} setProducts={setProducts} isProfile={isProfile}/>
                                 )
                             )}
 
                             {activeTab === 'review' && (
-                                reviews.length === 0 ? (
-                                    <p className='d-flex align-items-center'>No reviews yet.</p>
-                                ) : (
-                                    <ReviewsTab reviews={reviews} setReviews={setReviews} />
-                                )
+                                    <ReviewsTab userId={user_id}/>
                             )}
                         </div>
                     )

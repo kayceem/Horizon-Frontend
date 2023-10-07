@@ -14,6 +14,7 @@ import Search from './pages/Search/Search';
 import Error404 from './pages/Error404/Error404';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
+import User from './pages/User/User';
 
 const App = () => {
     return (<
@@ -24,16 +25,17 @@ const App = () => {
                 <Routes >
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/product/:id" element={<Product />} />
                     <Route path="/search" element={<Search />} />
                     <Route path="/signup" element={<Signup />} />
-                    <Route path="/product/:id" element={<Product />} />
-                    <Route path="*" element={<Error404 />} />
                     <Route element={<ProtectedRoutes />}>
                         <Route path="/inbox" element={<Inbox />} />
                         <Route path="/chat/:username" element={<Chat />} />
-                        <Route path="/wishlist" element={<Wishlist />} />
                         <Route path="/profile" element={<Profile />} />
+                        <Route path="/user/:id" element={<User />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
                     </Route>
+                    <Route path="*" element={<Error404 />} />
                 </Routes>
             </Router>
         </AuthProvider>

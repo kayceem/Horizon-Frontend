@@ -16,4 +16,8 @@
       border: none; 
       box-shadow: none; 
     }
+    .dropdown-item:focus,  .dropdown-item:hover{
+      background-color: #2b3035 !important; /* Set the background color to transparent */
+      color: #adb5bd !important; /* Set the text color to black */
+    }
   }

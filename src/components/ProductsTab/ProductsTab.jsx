@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import Products from '../Products/Products';
 import './ProductsTab.scss';
 
-const ProductsTab = ({products, setProducts}) => {
-  const [activeTab, setActiveTab] = useState('all');
+const ProductsTab = ({products, setProducts, isProfile}) => {
+  const [activeTab, setActiveTab] = useState(isProfile ? 'all' : 'available');
   const handleTabClick = (tabValue) => {
     setActiveTab(tabValue);
   }
@@ -11,7 +11,8 @@ const ProductsTab = ({products, setProducts}) => {
 
   return (
     <div className='products-tab'>
-
+      {
+        isProfile && (
       <ul className="nav nav-pills justify-content-center custom-nav-pills m-3">
         <li className="nav-item me-2">
           <button
@@ -38,17 +39,20 @@ const ProductsTab = ({products, setProducts}) => {
           </button>
         </li>
       </ul>
+
+        )
+      }
       <div className='scrollable-content'>
 
         <div className="tab-content mb-4">
-          {activeTab === 'all' && (
-              <Products products={products} setProducts={setProducts} expand={true} profile={true} />
+          {activeTab === 'all' && isProfile && (
+              <Products products={products} setProducts={setProducts} expand={true} profile={isProfile} />
           )}
           {activeTab === 'available' && (
-            <Products products={products.filter((product) => product.available === true)} setProducts={setProducts} expand={true} profile={true} />
+            <Products products={products.filter((product) => product.available === true)} setProducts={setProducts} expand={true} profile={isProfile} />
           )}
-          {activeTab === 'sold' && (
-            <Products products={products.filter((product) => product.available !== true)} setProducts={setProducts} expand={true} profile={true} />
+          {activeTab === 'sold' && isProfile && (
+            <Products products={products.filter((product) => product.available !== true)} setProducts={setProducts} expand={true} profile={isProfile} />
           )}
         </div>
       </div>

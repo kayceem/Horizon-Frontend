@@ -1,0 +1,26 @@
+.image-modal{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    .modal-content{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60vw;
+    }
+    .modal-dialog{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+    .modal-body{
+        width: 60vw;
+
+    }
+  }
+  

@@ -79,7 +79,7 @@ const Home = () => {
           <h2 className='d-flex justify-content-center align-items-center m-5 pt-5'>Featured Products</h2>
           <Products products={mostViewedProducts} />
           <AdHero/>
-          <h2 className='d-flex justify-content-center align-items-center m-5 pt-5'>New Arrivals</h2>
+          <h2 className='d-flex justify-content-center align-items-center m-5 pt-5'>New Drops</h2>
           <Products products={latestProducts} />
             {isAvailable ? (
               loadingLoadMore ? (

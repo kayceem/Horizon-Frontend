@@ -5,17 +5,11 @@ import { getCategory } from '../../api/category';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Loader from '../Loader/Loader';
+import {LuRefreshCw} from 'react-icons/lu';
+import { conditions } from '../../config';
 
 
 const AddProduct = ({ closeModal }) => {
-  const conditions = [
-    { id: 1, name: 'Brand new' },
-    { id: 2, name: 'Like new' },
-    { id: 3, name: 'Used' },
-    { id: 4, name: 'Not Working' },
-    { id: 5, name: 'Digital Product' },
-    { id: 6, name: 'Unspecified' }
-  ]
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -115,28 +109,32 @@ const AddProduct = ({ closeModal }) => {
           <div className="scrollable-content">
 
             {imagePreview && (
-              <img src={imagePreview}
-                className="img-thumbnail mb-3 rounded p-0"
-                alt="Selected Image"
-                style={{ maxWidth: '300px', maxHeight: '200px' }}
-              />
+             <div className="image-container position-relative mb-3">
+             <img
+               src={imagePreview}
+               className="img-thumbnail p-0"
+               alt="Selected Image"
+               style={{ maxWidth: '300px', maxHeight: '200px', borderRadius:'10px' }}
+             />
+             <div className="rounded overlay">
+               <label htmlFor="uploadImage" className="select-img change">
+                 <LuRefreshCw size={20} color='black' fontWeight={500}/>
+               </label>
+               <input type="file" id="uploadImage" accept="image/*" onChange={handleImageChange} />
+             </div>
+           </div>
+           
             )}
             {
-              !selectedImage ? (
+              !selectedImage && (
                 <div className="mb-3 select-image">
                   <label htmlFor="uploadImage" className="select-img "><small className="text-muted ">Choose an image</small></label>
                   <input type="file" id="uploadImage" accept="image/*" onChange={handleImageChange} />
                 </div>
-              ) :
-                (
-                  <div className="mb-3 select-image change">
-                    <label htmlFor="uploadImage" className="select-img change "><small className="text-muted ">Change image</small></label>
-                    <input type="file" id="uploadImage" accept="image/*" onChange={handleImageChange} />
-                  </div>
-                )
+              )
             }
             <div className="mb-3">
-              <button className="btn btn-primary" onClick={handleImageUpload}>
+              <button className="btn btn-dark" onClick={handleImageUpload}>
                 Next
               </button>
             </div>
@@ -232,7 +230,7 @@ const AddProduct = ({ closeModal }) => {
 
             </div>
             <div>
-              <button className="btn btn-primary mt-4" type='submit'>
+              <button className="btn btn-dark mt-4" type='submit'>
                 Submit Product
               </button>
             </div>

@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    min-height: 100vh;
-    margin: 0 5vw;
-    margin-top: 100px;
+    min-height: 100vh !important;
+    margin: 0 5vw !important;
+    margin-top: 12vh !important;
 }

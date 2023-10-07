@@ -4,12 +4,14 @@ import { useParams, Link } from 'react-router-dom';
 import InfiniteScroll from "react-infinite-scroller";
 import './Chat.scss';
 import Loader from '../../components/Loader/Loader';
+import Error404 from '../Error404/Error404';
 
 const Chat = () => {
   const { username } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isAvailable, setIsAvailable] = useState(true);
+  const [isUserValid, setIsUserValid] = useState(true);
   const [offset, setOffset] = useState(0);
   const chatContainerRef = useRef(null);
 
@@ -30,6 +32,7 @@ const Chat = () => {
       })
       .catch((error) => {
         console.error('Error fetching chat messages:', error);
+        setIsUserValid(false);
       })
       .finally(() => {
         setOffset(offset + 20);
@@ -74,8 +77,8 @@ const Chat = () => {
     nepalTime.setMinutes(nepalTime.getMinutes() + 45);
     return nepalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
-  
-  
+
+
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -85,61 +88,68 @@ const Chat = () => {
 
   return (
     <div className='container-fluid'>
-      <div className='chat-header'>
-        <Link to="/inbox" className='btn btn-secondary mb-3'>Inbox</Link>
-        <h2>{username}'s Chat</h2>
-      </div>
-      <div className='chat-box'>
-        <div className='chat-messages list-group'>
-          <div className='scrollable-content vh-95' ref={chatContainerRef}>
-            <InfiniteScroll
-              loadMore={fetchChat}
-              hasMore={isAvailable}
-              loader={
-                <Loader />
-              }
-              isReverse={true}
-              useWindow={false}
-            >
-              {[...messages].reverse().map((message) => (
-                <div
-                  key={message.id}
-                  className='message list-group-item'
-                >
-                  <div className={`${message.sent ? 'sent' : 'received'}`}>
-                    <div className="message-data">
-                      <p>{message.content}</p>
-                      <p className='time'>{convertToNepalTime(message.created_at)}</p>
-                      <p className='time'>{`${new Date(message.created_at).toLocaleDateString()} `}</p>
-                    </div>
-                  </div>
+      {
+        !isUserValid ? (
+          <Error404 element={'User'} />
+        ) : (
+          <div className='container-fluid'>
+            <div className='chat-header'>
+              <Link to="/inbox" className='btn btn-secondary mb-3'>Inbox</Link>
+              <h2>{username}'s Chat</h2>
+            </div>
+            <div className='chat-box'>
+              <div className='chat-messages list-group'>
+                <div className='scrollable-content vh-95' ref={chatContainerRef}>
+                  <InfiniteScroll
+                    loadMore={fetchChat}
+                    hasMore={isAvailable}
+                    loader={
+                      <Loader />
+                    }
+                    isReverse={true}
+                    useWindow={false}
+                  >
+                    {[...messages].reverse().map((message) => (
+                      <div
+                        key={message.id}
+                        className='message list-group-item'
+                      >
+                        <div className={`${message.sent ? 'sent' : 'received'}`}>
+                          <div className="message-data">
+                            <p>{message.content}</p>
+                            <p className='time'>{convertToNepalTime(message.created_at)}</p>
+                            <p className='time'>{`${new Date(message.created_at).toLocaleDateString()} `}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </InfiniteScroll>
                 </div>
-              ))}
-            </InfiniteScroll>
-          </div>
-        </div>
-      </div>
+              </div>
+            </div>
 
-      <form onSubmit={handleSendMessage}>
-        <div className='input-box'>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Type a message...'
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-          />
-          <div className='input-group-append'>
-            <button
-              className='btn btn-primary'
-              type='submit'
-            >
-              Send
-            </button>
-          </div>
-        </div>
-      </form>
-
+            <form onSubmit={handleSendMessage}>
+              <div className='input-box'>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Type a message...'
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                />
+                <div className='input-group-append'>
+                  <button
+                    className='btn btn-primary'
+                    type='submit'
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div >
+        )
+      }
     </div >
   );
 };
