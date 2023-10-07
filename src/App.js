@@ -30,7 +30,7 @@ const App = () => {
                     <Route path="/signup" element={<Signup />} />
                     <Route element={<ProtectedRoutes />}>
                         <Route path="/inbox" element={<Inbox />} />
-                        <Route path="/chat/:username" element={<Chat />} />
+                        // <Route path="/chat/:username" element={<Chat />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/user/:id" element={<User />} />
                         <Route path="/wishlist" element={<Wishlist />} />

@@ -40,8 +40,8 @@
   display: flex;
   justify-content: flex-end;
   .message-data{
-    background-color: antiquewhite;
-    width: 600px;
+    background-color: rgb(235, 235, 235);
+    width: 350px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -51,9 +51,10 @@
       display: flex;
       text-align: left;
       justify-content: flex-end;
+      color: black;
     }
     .time{
-      font-size: small;
+      font-size: 0.7rem;
       margin: 0;
     }
   }
@@ -63,8 +64,8 @@
   display: flex;
   justify-content: flex-start;
   .message-data{
-    background-color: rgb(100, 230, 226);
-    width: 600px;
+    background-color: rgb(156, 156, 156);
+    width: 350px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -74,9 +75,10 @@
       display: flex;
       text-align: left;
       justify-content: flex-start;
+      color: black;
     }
     .time{
-      font-size: small;
+      font-size: 0.7rem;
       margin: 0;
     }
   }

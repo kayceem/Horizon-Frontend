@@ -99,7 +99,7 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
               <div style={{ height: '20vh' }}
               >
                 <img
-                  src={`${product.image_url}`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}/${product.image_url}`}
                   className='card-img-top w-100'
                   alt='...'
                   style={{ height: '20vh' }}
@@ -125,7 +125,7 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                           <Dropdown.Item onClick={() => toggleModal(product)}>Edit</Dropdown.Item>
-                          <Dropdown.Item onClick={() => handleAvailability(product)}>{product.available ? (<p className='m-0'>Mark as Sold</p>) : (<p className='m-0'> Mark as Available</p>)}</Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleAvailability(product)}>{product.available ? (<p className='m-0'>Mark as Sold</p>) : (<p className='m-0' style={{opacity:'100%'}}> Mark as Available</p>)}</Dropdown.Item>
                           <Dropdown.Item onClick={() => handleDelete(product)}>Delete</Dropdown.Item>
                           <EditProductModal isModalOpen={isModalOpen} closeModal={closeModal} product={currentProduct} />
                         </Dropdown.Menu>

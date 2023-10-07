@@ -36,6 +36,19 @@ export async function updateUser(userData) {
     }
   }
 
+export async function changePassword(userData) {
+    try {
+      const response = await api.put('/users/password', userData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 export async function deleteUser() {
     try {
       const response = await api.delete('/users/');

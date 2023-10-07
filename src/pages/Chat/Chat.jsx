@@ -1,38 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { getMessages, sendMessage } from '../../api/messages';
-import { useParams, Link } from 'react-router-dom';
 import InfiniteScroll from "react-infinite-scroller";
 import './Chat.scss';
 import Loader from '../../components/Loader/Loader';
-import Error404 from '../Error404/Error404';
+import { RxCross1 } from 'react-icons/rx';
+import { TbSend } from 'react-icons/tb';
 
-const Chat = () => {
-  const { username } = useParams();
-  const [messages, setMessages] = useState([]);
+const Chat = ({refreshInbox, username, setUsername, offset, setOffset, messages, setMessages, isAvailable, setIsAvailable, initialLoad, setInitialLoad}) => {
   const [newMessage, setNewMessage] = useState('');
-  const [isAvailable, setIsAvailable] = useState(true);
-  const [isUserValid, setIsUserValid] = useState(true);
-  const [offset, setOffset] = useState(0);
   const chatContainerRef = useRef(null);
 
   const fetchChat = () => {
-    // Fetch inbox messages when the component mounts
     getMessages(username, offset)
-      .then((data) => {
-        setMessages((prevMessages) => {
-          const newData = data.filter((newMessage) => {
-            return !prevMessages.some((existingMessage) => existingMessage.id === newMessage.id);
-          });
-
-          return [...prevMessages, ...newData];
+    .then((data) => {
+      setMessages((prevMessages) => {
+        const newData = data.filter((newMessage) => {
+          return !prevMessages.some((existingMessage) => existingMessage.id === newMessage.id);
         });
-        if (data.length !== 20) {
-          setIsAvailable(false);
+        if(data.length!==20){
+          setIsAvailable(false)
         }
-      })
-      .catch((error) => {
-        console.error('Error fetching chat messages:', error);
-        setIsUserValid(false);
+        return [...prevMessages, ...newData];
+      });
+    })
+    .catch((error) => {
+      console.error('Error fetching chat messages:', error);
       })
       .finally(() => {
         setOffset(offset + 20);
@@ -61,14 +53,18 @@ const Chat = () => {
         setMessages([]);
         setIsAvailable(true);
         setOffset(0);
-        if (chatContainerRef.current) {
-          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-        }
+        refreshInbox();
+  
       })
       .catch((error) => {
         console.error(error);
       })
-    fetchChat();
+      return (()=>{
+        fetchChat();
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+      });
   };
 
   const convertToNepalTime = (utcTimestamp) => {
@@ -79,23 +75,28 @@ const Chat = () => {
   }
 
 
+  useEffect(() => {
+    fetchChat();
+  },[username])
 
   useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  })
+    return (()=>{
+        if (chatContainerRef.current && initialLoad) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+          setInitialLoad(false);
+        }
+    })
+  },[messages])
+
+  
 
   return (
-    <div className='container-fluid'>
-      {
-        !isUserValid ? (
-          <Error404 element={'User'} />
-        ) : (
           <div className='container-fluid'>
-            <div className='chat-header'>
-              <Link to="/inbox" className='btn btn-secondary mb-3'>Inbox</Link>
-              <h2>{username}'s Chat</h2>
+            <div className='chat-header bottom-divider'>
+              <h5>@{username}</h5>
+              <RxCross1 size={22} onClick={()=>{
+                setUsername(null)
+              }}/>
             </div>
             <div className='chat-box'>
               <div className='chat-messages list-group'>
@@ -106,6 +107,7 @@ const Chat = () => {
                     loader={
                       <Loader />
                     }
+                    initialLoad={false}
                     isReverse={true}
                     useWindow={false}
                   >
@@ -139,18 +141,15 @@ const Chat = () => {
                 />
                 <div className='input-group-append'>
                   <button
-                    className='btn btn-primary'
+                    className='btn btn-dark'
                     type='submit'
                   >
-                    Send
+                    <TbSend style={{margin:0, padding:0}} size={22}/>
                   </button>
                 </div>
               </div>
             </form>
           </div >
-        )
-      }
-    </div >
   );
 };
 export default Chat;

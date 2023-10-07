@@ -36,7 +36,7 @@ input, textarea, button:focus{
   height: 85vh !important;
 }
 .vh-95{
-  height: calc(95vh - 220px) !important; 
+  height: calc(95vh - 190px) !important; 
 
 }
 .h-80{

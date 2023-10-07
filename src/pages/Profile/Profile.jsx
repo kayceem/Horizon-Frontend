@@ -5,19 +5,24 @@ import Loader from '../../components/Loader/Loader';
 import { useAuth } from '../../context/AuthContext';
 import Stars from '../../components/Stars/Stars';
 import EditUser from '../../components/EditUser/EditUser';
+import ChangePassword from '../../components/ChangePassword/ChangePassword';
 
 const Profile = () => {
   const auth = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const toggleEdit = () =>{
     setIsEditing(!isEditing);
+  }
+  const toggleChangePassword = () =>{
+    setIsChangingPassword(!isChangingPassword);
   }
   return (
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-3 h-100 divider">
           {
-            !isEditing ? (
+            !isEditing && !isChangingPassword? (
               <div>
                 <div className='user-name mt-5 mb-4'>
                   <h4>{auth.user.first_name} {auth.user.last_name}</h4>
@@ -29,12 +34,17 @@ const Profile = () => {
                   <p className='my-0 me-4'>{auth.user.rating}(5)</p>
                 </div>
                 <p className='m-0 p-0 mb-4'>Member since: {new Date(auth.user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
-                <div className='interact-buttons d-flex align-items-center'>
+                <div className='interact-buttons d-flex align-items-center justify-content-between me-4'>
                   <button className='btn btn-dark' onClick={toggleEdit}>Edit Profile</button>
+                  <button className='btn btn-dark' onClick={toggleChangePassword}>Change Password</button>
                 </div>
               </div>
-            ) : (
+            ) : isEditing ? (
               <EditUser toggleEdit={toggleEdit}/>
+              ) : isChangingPassword ? (
+                <ChangePassword toggleChangePassword={toggleChangePassword}/>
+              ) : (
+                <div></div>
               )
           }
 
