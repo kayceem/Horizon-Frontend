@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { changePassword, updateUser } from '../../api/user';
 import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const ChangePassword = ({ toggleChangePassword }) => {
     const auth = useAuth();
@@ -34,6 +35,7 @@ const ChangePassword = ({ toggleChangePassword }) => {
         changePassword(userData)
             .then((data) => {
                 toggleChangePassword();
+                toast.success('Password changed succesfully.')
             })
             .catch((error) => {
                 if (error.response.data.detail) {

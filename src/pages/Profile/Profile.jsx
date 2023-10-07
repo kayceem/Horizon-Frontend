@@ -13,21 +13,24 @@ const Profile = () => {
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const toggleEdit = () =>{
     setIsEditing(!isEditing);
-  }
+  };
   const toggleChangePassword = () =>{
     setIsChangingPassword(!isChangingPassword);
-  }
+  };
+  const handleMail = (email) => {
+    window.location.href = `mailto:${email}`;
+  };
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-3 h-100 divider">
+        <div className="col-md-3 divider">
           {
             !isEditing && !isChangingPassword? (
               <div>
                 <div className='user-name mt-5 mb-4'>
                   <h4>{auth.user.first_name} {auth.user.last_name}</h4>
                   <h6>@{auth.user.username}</h6>
-                <p className='m-0 p-0 mt-3 mb-4' style={{fontSize:12}}>{auth.user.email}</p>
+                <p className='m-0 p-0 mt-3 mb-4 email-link' onClick={()=>handleMail(auth.user.email)}>{auth.user.email}</p>
                 </div>
                 <div className='d-flex align-items-center justify-content-between mb-4'>
                   <Stars rating={auth.user.rating} size={26} half={true} />

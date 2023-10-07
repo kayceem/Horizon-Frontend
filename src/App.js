@@ -15,10 +15,15 @@ import Error404 from './pages/Error404/Error404';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import User from './pages/User/User';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
     return (<
         div className='main' >
+        <Toaster
+            position="top-center"
+            containerStyle={{marginTop:'55px'}}
+            reverseOrder={false} />
         <AuthProvider>
             <Router>
                 <Navbar />
@@ -29,10 +34,10 @@ const App = () => {
                     <Route path="/search" element={<Search />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route element={<ProtectedRoutes />}>
+                        <Route path="/inbox/:username" element={<Inbox />} />
                         <Route path="/inbox" element={<Inbox />} />
-                        // <Route path="/chat/:username" element={<Chat />} />
                         <Route path="/profile" element={<Profile />} />
-                        <Route path="/user/:id" element={<User />} />
+                        <Route path="/user/:username" element={<User />} />
                         <Route path="/wishlist" element={<Wishlist />} />
                     </Route>
                     <Route path="*" element={<Error404 />} />

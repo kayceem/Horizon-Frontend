@@ -7,6 +7,8 @@ import * as Yup from 'yup';
 import Loader from '../Loader/Loader';
 import {LuRefreshCw} from 'react-icons/lu';
 import { conditions } from '../../config';
+import { Navigate, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 const AddProduct = ({ closeModal }) => {
@@ -38,7 +40,7 @@ const AddProduct = ({ closeModal }) => {
   const [imageUploaded, setImageUploaded] = useState(false);
   const [imageUploadLoading, setImageUploadLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-
+  const navigate = useNavigate();
   const fetchCategories = () => {
     getCategory()
       .then((data) => {
@@ -67,17 +69,17 @@ const AddProduct = ({ closeModal }) => {
 
   const handleImageUpload = () => {
     if (!selectedImage) {
-      alert('Please select an image first.');
+      toast.error('Please select an image.')
       return;
     }
     setImageUploadLoading(false)
     uploadImage(selectedImage)
-      .then((data) => {
-        if (data.success) {
-          formik.setFieldValue('image_url', data.image_url);
-          setImageUploaded(true);
-        } else {
-          alert('Image could not be uploaded');
+    .then((data) => {
+      if (data.success) {
+        formik.setFieldValue('image_url', data.image_url);
+        setImageUploaded(true);
+      } else {
+          toast.error('Image could not be uploaded.')
         }
       })
       .catch((error) => {
@@ -91,8 +93,9 @@ const AddProduct = ({ closeModal }) => {
   const handleProductSubmit = (productData) => {
     // Call the createProduct API with productData and imageURL
     createProduct(productData)
-      .then((response) => {
-        console.log('Product created:', response);
+      .then((data) => {
+        navigate(`/product/${data.id}`)
+        toast.success('Product added succesfully.')
         closeModal();
       })
       .catch((error) => {
@@ -112,13 +115,13 @@ const AddProduct = ({ closeModal }) => {
              <div className="image-container position-relative mb-3">
              <img
                src={imagePreview}
-               className="img-thumbnail p-0"
+               className="img-fluid p-0"
                alt="Selected Image"
-               style={{ maxWidth: '300px', maxHeight: '200px', borderRadius:'10px' }}
+               style={{maxHeight: '250px', borderRadius:'10px' }}
              />
              <div className="rounded overlay">
                <label htmlFor="uploadImage" className="select-img change">
-                 <LuRefreshCw size={20} color='black' fontWeight={500}/>
+                 <LuRefreshCw size={80}/>
                </label>
                <input type="file" id="uploadImage" accept="image/*" onChange={handleImageChange} />
              </div>

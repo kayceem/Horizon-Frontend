@@ -5,16 +5,22 @@ import './Inbox.scss';
 import Loader from '../../components/Loader/Loader';
 import { useAuth } from '../../context/AuthContext';
 import Chat from '../Chat/Chat';
+import { useParams } from 'react-router-dom';
+import { getUser } from '../../api/user';
+import { BsFillInboxFill } from 'react-icons/bs';
 
 
 const Inbox = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [chatUsername, setChatUsername] = useState();
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
   const [chatMessages, setChatMessages] = useState([]);
   const [offset, setOffset] = useState(0);
   const [initialLoad, setInitialLoad] = useState(true);
   const [isAvailable, setIsAvailable] = useState(true);
+  const { username } = useParams();
 
 
 
@@ -35,29 +41,52 @@ const Inbox = () => {
       });
   };
 
-  const openConversation = (username) => {
-    if ( username !== chatUsername){
-       refreshInbox();
-       setOffset(0);
-       setChatMessages([]);
-       setChatUsername(username);
-       setInitialLoad(true);
-       setIsAvailable(true);
+  const openConversation = (username, firstName, lastName) => {
+    if (username !== chatUsername) {
+      refreshInbox();
+      setOffset(0);
+      setChatMessages([]);
+      setChatUsername(username);
+      setFirstName(firstName);
+      setLastName(lastName);
+      setInitialLoad(true);
+      setIsAvailable(true);
     }
   }
-  const refreshInbox = ()=>{
+  const refreshInbox = () => {
     fetchInbox();
+  }
+  const fetchUserInfo = () => {
+    getUser(username)
+      .then((data) => {
+        setFirstName(data.first_name);
+        setLastName(data.last_name);
+      })
+      .catch((error) => {
+        console.error('Error fetching Info', error);
+      })
+
   }
   useEffect(() => {
     return () => {
       fetchInbox();
+      {
+        username &&
+          fetchUserInfo();
+        setChatUsername(username);
+      }
     };
   }, []);
 
   return (
     <div className='container-fluid row'>
-      <div className='col-md-4'>
-        <h1 className='mb-4'>Inbox</h1>
+      <div className='col-md-4 divider'>
+        <div className='mb-4 d-flex justify-content-between inbox-heading ms-2 me-4 align-items-center'>
+          <p>Inbox</p>
+          <div>
+            <BsFillInboxFill size={30}/>
+          </div>
+        </div>
         <div className='list-group'>
           {
             loading ? (
@@ -71,7 +100,7 @@ const Inbox = () => {
                     key={message.id}
                     className={`list-group-item list-group-item-action mb-3 message-content ${!message.read && message.sender_id !== auth.user.id ? 'unread-message' : ''
                       }`}
-                    onClick={() => openConversation(message.username)}
+                    onClick={() => openConversation(message.username, message.first_name, message.last_name)}
                   >
                     <div className='d-flex w-100 justify-content-between'>
                       <h6 className='d-flex align-items-center mb-1'>{message.username} {!message.read && message.sender_id !== auth.user.id && <div className="unread-dot mx-2"></div>} </h6 >
@@ -90,12 +119,12 @@ const Inbox = () => {
         </div>
       </div>
       <div className='col-md-8'>
-          {chatUsername ? (
-            <Chat refreshInbox={refreshInbox} username={chatUsername} setUsername={setChatUsername} offset={offset} setOffset={setOffset} messages={chatMessages} setMessages={setChatMessages} initialLoad={initialLoad} setInitialLoad={setInitialLoad} setIsAvailable={setIsAvailable} isAvailable={isAvailable}/>
-          )  : (
-            <p className='d-flex align-items-center justify-content-center w-100 h-100'>No conversation selected</p>
-          ) 
-          }
+        {chatUsername ? (
+          <Chat refreshInbox={refreshInbox} username={chatUsername} firstName={firstName} lastName={lastName} setUsername={setChatUsername} offset={offset} setOffset={setOffset} messages={chatMessages} setMessages={setChatMessages} initialLoad={initialLoad} setInitialLoad={setInitialLoad} setIsAvailable={setIsAvailable} isAvailable={isAvailable} />
+        ) : (
+          <p className='d-flex align-items-center justify-content-center w-100 h-80'>No conversation selected</p>
+        )
+        }
       </div>
     </div>
   );

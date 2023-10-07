@@ -6,6 +6,7 @@ import './Home.scss';
 import Loader from '../../components/Loader/Loader';
 import { AdCarousel, AdHero } from '../../components/AdUi/AdUI';
 import Footer from '../../components/Footer/Footer';
+import toast from 'react-hot-toast';
 
 const Home = () => {
   const [mostViewedProducts, setMostViewedProducts] = useState([]);
@@ -17,37 +18,38 @@ const Home = () => {
 
 
   const fetchMostViewedProducts = async () => {
-      getProducts(offset)
+    getProducts(offset)
       .then((data) => {
         setMostViewedProducts(data);
       })
       .catch((error) => {
-          console.error('Error fetching products:', error);
-        });
+        console.error('Error fetching products:', error);
+      });
   };
-  const fetchLatestProducts = async (newOffset=0) => {
+  const fetchLatestProducts = async (newOffset = 0) => {
     setOffset(newOffset);
     getProducts(newOffset, 'Latest')
-    .then((data) => {
-      setLatestProducts((prevProducts) => [...prevProducts, ...data]);
-      if(data.length!==18){
-        setIsAvailable(false);
-      }
-    })
-    .catch((error) => {
-      console.error('Error fetching products:', error);
-    });
+      .then((data) => {
+        setLatestProducts((prevProducts) => [...prevProducts, ...data]);
+        if (data.length !== 18) {
+          setIsAvailable(false);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+        toast.error('No more products.')
+      });
   };
 
   const fetchData = async () => {
     setLoading(true);
     fetchMostViewedProducts();
     fetchLatestProducts()
-    .finally(()=>{
-      setLoading(false);
-    });
+      .finally(() => {
+        setLoading(false);
+      });
   };
-  
+
   useEffect(() => {
     // Fetch initial products data
     return () => {
@@ -61,43 +63,43 @@ const Home = () => {
     setLoadingLoadMore(true);
     const newOffset = offset + 18;
     fetchLatestProducts(newOffset)
-    .finally(()=>{
-      setLoadingLoadMore(false);
-    })
+      .finally(() => {
+        setLoadingLoadMore(false);
+      })
   };
 
-  
+
   return (
-    <div className="scrollable-content vh-85">
-        <AdCarousel/>
+    <div className="scrollable-content vh-85" style={{ width: '100vw' }}>
       {loading ? (
         <Loader />
       ) : mostViewedProducts.length === 0 && latestProducts.length === 0 ? (
-        <p className='d-flex justify-content-center'>No products available :(</p>
+        <p className='d-flex justify-content-center mt-5'>No products available :(</p>
       ) : (
-        <div className='product container-fluid'>
-          <h2 className='d-flex justify-content-center align-items-center m-5 pt-5'>Featured Products</h2>
+        <div className='product container-fluid shrinked'>
+          <AdCarousel />
+          <h2 className='d-flex justify-content-center align-items-center m-5 mt-0 pt-5'>Featured Products</h2>
           <Products products={mostViewedProducts} />
-          <AdHero/>
+          <AdHero />
           <h2 className='d-flex justify-content-center align-items-center m-5 pt-5'>New Drops</h2>
           <Products products={latestProducts} />
-            {isAvailable ? (
-              loadingLoadMore ? (
-                <Loader height={false}/>
-                ) : (
-                  <div className='text-center'>
+          {isAvailable ? (
+            loadingLoadMore ? (
+              <Loader height={false} />
+            ) : (
+              <div className='text-center'>
                 <button className='btn btn-dark load-more' onClick={handleLoadMore}>
                   Load More
                 </button>
               </div>
-              )
-            ) :(
-              <p></p>
             )
-}
+          ) : (
+            <p></p>
+          )
+          }
         </div>
       )}
-      <Footer/>
+      <Footer />
     </div>
   )
 };

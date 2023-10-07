@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import '../AddProduct/AddProduct.scss';
 import { conditions } from '../../config';
+import toast from 'react-hot-toast';
 
 
 const EditProduct = ({ closeModal, product }) => {
@@ -54,10 +55,11 @@ useEffect (()=>{
     // Call the createProduct API with productData and imageURL
     updateProduct(productData, product.id)
       .then((response) => {
-        console.log('Product updated:', response);
+        toast.success('Product edited succesfully.')
         closeModal();
       })
       .catch((error) => {
+        toast.error('Product could not be edited.')
         console.error('Error updating product:', error);
       });
   };
@@ -66,9 +68,8 @@ useEffect (()=>{
     <div className="container-fluid">
         <div className="mb-2 p-4">
             <img src={`${process.env.REACT_APP_BACKEND_URL}/${product.image_url}`}
-                className="img-thumbnail mb-3 border rounded p-0"
+                className="img-fluid mb-3 border rounded p-0"
                 alt="Selected Image"
-                style={{ maxWidth: '300px', maxHeight: '200px' }}
               />
           <form onSubmit={formik.handleSubmit}>
             <div className="form-group mb-3">

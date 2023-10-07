@@ -34,11 +34,13 @@ label.select-img+input {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(224, 224, 224, 0.5); /* Semi-transparent background */
+  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
   cursor: pointer;
   color: black;
   opacity: 0.5;
   border-radius: 10px;
+  border:3px dashed rgb(0, 0, 0);
+
 }
 
 .custom-modal {

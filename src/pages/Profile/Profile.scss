@@ -2,4 +2,15 @@
     border-right: 1px solid #d2d2d2; /* Customize border style and color as needed */
     height: 100vh !important; /* Ensure the divider's height matches the adjacent columns */
   }
-  
+.divider-100 {
+    border-left: 1px solid #d2d2d2; /* Customize border style and color as needed */
+    height: 100% !important; /* Ensure the divider's height matches the adjacent columns */
+  }
+  .email-link{
+    font-size: 12px;
+    cursor: pointer;
+
+  }
+  .interact-buttons{
+    gap:2rem;
+  }

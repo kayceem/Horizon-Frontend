@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import './EditUser.scss';
 import { updateUser } from '../../api/user';
 import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const EditUser = ({ toggleEdit }) => {
   const auth = useAuth();
@@ -32,6 +33,7 @@ const EditUser = ({ toggleEdit }) => {
     updateUser(userData)
       .then((data) => {
         auth.setUser(data);
+        toast.success('Profile edited succesfully.')
         toggleEdit();
       })
       .catch((error) => {

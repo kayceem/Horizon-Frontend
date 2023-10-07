@@ -34,7 +34,7 @@ const Signup = () => {
       try {
         await createUser(values);
         formik.resetForm();
-        console.log('User created successfully');
+        console.log('User created succesfully');
         navigate('/login');
       } catch (error) {
         console.log('Error creating user: ', error.message);

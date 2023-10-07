@@ -171,7 +171,7 @@ const Search = () => {
                         {loading ? (
                            <Loader/>
                         ) : products.length === 0 ? (
-                            <p>Product not available.</p>
+                            <p className='w-100 d-flex justify-content-center h-80 align-items-center'>No products found.</p>
                         ) : (
                             <Products products={products} expand={true} />
                         )}

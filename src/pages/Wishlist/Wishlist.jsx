@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getWishList } from '../../api/wishlist'
 import Products from '../../components/Products/Products';
 import Loader from '../../components/Loader/Loader';
+import toast from 'react-hot-toast';
 
 const Wishlist = () => {
   const [products, setProducts] = useState([]);
@@ -21,6 +22,15 @@ const Wishlist = () => {
         setLoading(false);
       })
   }
+  const groupedItems = products.reduce((groups, item) => {
+    const createdAt = new Date(item.created_at).toLocaleDateString();
+    if (!groups[createdAt]) {
+      groups[createdAt] = [];
+    }
+    groups[createdAt].push(item);
+    return groups;
+  }, {});
+
 
   useEffect(() => {
     return () => {
@@ -28,21 +38,24 @@ const Wishlist = () => {
     };
   }, []);
   return (
-    <div className='product container-fluid'>
-    <h1>Wish List</h1>
-    {
+
+<div className='product container-fluid mt-4'>
+{
       loading ? (
         <Loader/>
-        ) : products.length !==0 ? (
-          <div className='scrollable-content'>
-            <Products products={products}/>
-            </div>
-        ) : (
-          <p className='d-flex justify-content-center'>Your wishlit is empty :(</p> 
-        )
-        
-      }
+      ) : Object.keys(groupedItems).length === 0 ? (
+  <p className='d-flex justify-content-center'>Your wish list is empty :(</p>
+) : (
+      <div className='scrollable-content vh-85'>
+      {Object.entries(groupedItems).map(([date, items]) => (
+        <div key={date}>
+          <h5>{new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day:'2-digit' })}</h5>
+        <Products products={items} />
+        </div>
+      ))}
       </div>
+)}
+</div>
   );
 };
 

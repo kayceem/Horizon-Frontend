@@ -19,7 +19,7 @@ const ExpandableImage = ({ imageUrl }) => {
         <div>
             <img
                 src={imageUrl}
-                className="img-fluid mb-3 p-0 w-100 clickable-image"
+                className="img-fluid p-0 rounded clickable-image"
                 style={{ cursor: 'pointer', maxHeight: '60vh' }}
                 alt="Product"
                 onClick={handleImageClick}

@@ -5,6 +5,7 @@ import { login } from '../../api/auth';
 import './Login.scss';
 import { useLocation, useNavigate  } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const Login = () => {
 const [errorMessage, setErrorMessage] = useState('');
@@ -29,6 +30,7 @@ const redirectPath = location.state?.path || '/'
           setErrorMessage(''); 
           formik.resetForm();
           navigate(redirectPath, {replace:true});
+          toast.success('Logged in')
         })
        .catch( (error) => {
         setErrorMessage(error.message);

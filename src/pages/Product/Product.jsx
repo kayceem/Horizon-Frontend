@@ -9,6 +9,8 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { addToWishList, deleteFromWishList } from '../../api/wishlist';
 import './Product.scss';
 import ExpandableImage from '../../components/ImageModal/ImageModal';
+import Stars from '../../components/Stars/Stars';
+import toast from 'react-hot-toast';
 
 const Product = () => {
   const { id } = useParams();
@@ -47,14 +49,16 @@ const Product = () => {
       deleteFromWishList({ product_id: product.id })
         .then(() => {
           setWishListed(false);
+          toast.success('Removed from wishlist');
         })
         .catch((error) => {
           console.error('Error removing from wishlist:', error);
         });
-    } else {
-      addToWishList({ product_id: product.id })
+      } else {
+        addToWishList({ product_id: product.id })
         .then(() => {
           setWishListed(true);
+          toast.success('Added to wishlist');
         })
         .catch((error) => {
           console.error('Error adding to wishlist:', error);
@@ -74,50 +78,76 @@ const Product = () => {
   }, []);
 
   const goToChat = (user) => {
-    navigate(`/chat/${user.username}`);
+    navigate(`/inbox/${user.username}`);
   }
 
   return (
-    <div className='scrollable-content vh-85 w-100'>
+    // <div className='scrollable-content vh-85 w-100'>
+    <div className='w-100'>
       {
         loading ? (
           <Loader />
         ) : product ? (
           <div className='row'>
-            <div className='col-md-5'>
-              <ExpandableImage imageUrl={`${process.env.REACT_APP_BACKEND_URL}/${product.image_url}`}
-              />
-            </div>
-            <div className='col-md-7'>
-              <div className="d-flex flex-start"></div>
-              <p>{product.name}</p>
-              <p>{product.description}</p>
-              <p>{product.condition}</p>
-              <p>{categories.find((cat) => cat.id === product.category_id)?.name}</p>
+            <div className='col-md-6'>
+              <ExpandableImage imageUrl={`${process.env.REACT_APP_BACKEND_URL}/${product.image_url}`} />
               {
-                auth.isLoggedIn ? (
-                  <div className="contact-seller">
-                    <Link to={`/user/${product.user_id}`} style={{ textDecoration: 'none' , color:'black'}}>
-                      <p>@{product.user.username}</p>
-                    </Link>
-                    <button className='btn btn-dark contact-button' onClick={() => goToChat(product.user)}>
-                      Contact Seller
-                    </button>
-                    <button className='wish-list-heart' onClick={handleToggleWishlist}>
-                      {wishlisted ? (
-                        <AiFillHeart size={35} />
-                      ) : (
-                        <AiOutlineHeart size={35} />
-                      )}
-                    </button>
-                  </div>
-                ) : (
-                  <button className='btn btn-dark  contact-button' onClick={() => { navigate("/login", { state: { path: location.pathname } }) }}>
-                    Login to contact seller
-                  </button>
 
-                )
+                auth.isLoggedIn ? (
+                  <>
+                    <div className='user-name mt-4 mb-2'>
+                      <h4>{product.user.first_name} {product.user.last_name}</h4>
+                      <Link to={`/user/${product.user.username}`} style={{ textDecoration: 'none', color: 'black' }}>
+                        <p>@{product.user.username}</p>
+                      </Link>
+                    </div>
+                    <div className='d-flex align-items-center justify-content-start mb-2' style={{ gap: '2rem' }}>
+                      <Stars rating={product.user.rating} size={26} half={true} />
+                      <p className='my-0 me-2'>{product.user.rating}(5)</p>
+                    </div>
+                    <p className='m-0 p-0 mb-2'>Member since: {new Date(product.user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
+                  </>
+                ) : (<></>)
               }
+            </div>
+            <div className='col-md-5'>
+              <div className='scrollable-content vh-85'>
+                <div className="d-flex flex-column ms-4">
+                  <p className='product-name'>{product.name}</p>
+                  {product.description.length !== 0 ? (<p className='ms-2'>{product.description}</p>) : (<p className='ms-2' style={{ opacity: '50%' }}>No description</p>)}
+                  <div className='product-info-tags'>
+                    <p className='product-info-tag'>{product.condition}</p>
+                    <p className='product-info-tag'>{categories.find((cat) => cat.id === product.category_id)?.name}</p>
+                  </div>
+                </div>
+                {
+                  auth.isLoggedIn ? (
+                    <div className="contact-seller ms-4">
+                      <div className='d-flex justify-content-start logged-in-buttons' >
+                        <button className='btn btn-dark contact-button' onClick={() => goToChat(product.user)}>
+                          Contact Seller
+                        </button>
+                        <button className='btn btn-dark contact-button ' onClick={handleToggleWishlist}>
+                          {wishlisted ? (
+                            <>
+                              Remove from wishlist
+                            </>
+                          ) : (
+                            <>
+                            Add to wishlist
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button className='btn btn-dark  login-contact-button' onClick={() => { navigate("/login", { state: { path: location.pathname } }) }}>
+                      Login to contact seller
+                    </button>
+
+                  )
+                }
+              </div>
             </div>
 
           </div>

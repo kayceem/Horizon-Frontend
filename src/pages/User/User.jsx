@@ -9,7 +9,7 @@ import Stars from '../../components/Stars/Stars';
 import ReviewUserModal from '../../components/ReviewUser/ReviewUserModal';
 
 const User = () => {
-    const { id } = useParams();
+    const { username } = useParams();
     const [userInfo, setUserInfo] = useState();
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +26,7 @@ const User = () => {
 
     const fetchUser = () => {
         setLoading(true);
-        getUser(id)
+        getUser(username)
             .then((data) => {
                 setUserInfo(data);
             })
@@ -39,7 +39,7 @@ const User = () => {
     }
 
     useEffect(() => {
-        parseInt(auth.user.id) === parseInt(id) && navigate('/profile');
+        auth.user.username === username && navigate('/profile');
         return () => {
             fetchUser();
         }
@@ -53,7 +53,7 @@ const User = () => {
                     <Loader />
                 ) : userInfo ? (
                     <div className="row">
-                            <div className="col-md-3 h-100 divider">
+                            <div className="col-md-3 divider">
                                 <div className='user-name mt-5 mb-4'>
                                 <h4>{userInfo.first_name} {userInfo.last_name}</h4>
                                 <h6>@{userInfo.username}</h6>
@@ -63,10 +63,10 @@ const User = () => {
                                     <p className='my-0 me-4'>{userInfo.rating}(5)</p>
                                 </div>
                                 <p className='m-0 p-0 mb-4'>Member since: {new Date(userInfo.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
-                                <div className='interact-buttons d-flex justify-content-evenly me-4 align-items-center'>
+                                <div className='interact-buttons d-flex justify-content-start me-4 align-items-center'>
                                 <button className='btn btn-dark btn-sm' onClick={toggleModal}>Review User</button>
                                 <ReviewUserModal isModalOpen={isModalOpen} closeModal={closeModal} revieweeId={userInfo.id}/>
-                                <button className='btn btn-dark btn-sm' onClick={()=>{navigate(`/chat/${userInfo.username}`)}}>Contact User</button>
+                                <button className='btn btn-dark btn-sm' onClick={()=>{navigate(`/inbox/${userInfo.username}`)}}>Contact User</button>
                                 </div>
                             </div>
                             <div className="col-md-9">

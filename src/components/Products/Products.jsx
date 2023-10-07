@@ -8,6 +8,7 @@ import { deleteProduct, updateProduct } from '../../api/products';
 import EditProductModal from '../EditProduct/EditProductModal';
 import { deleteFromWishList, addToWishList } from '../../api/wishlist';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Products = ({ products, setProducts, expand = false, profile = false }) => {
 
@@ -28,15 +29,17 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
           setWishlistedProducts((prevProducts) =>
             prevProducts.filter((id) => id !== productId)
           );
+          toast.success('Removed from wishlist.')
         })
         .catch((error) => {
           console.error('Error removing from wishlist:', error);
         });
-    } else {
-      // Add to wishlist
-      addToWishList({ product_id: productId })
+      } else {
+        // Add to wishlist
+        addToWishList({ product_id: productId })
         .then(() => {
           setWishlistedProducts((prevProducts) => [...prevProducts, productId]);
+          toast.success('Added to wishlist.')
         })
         .catch((error) => {
           console.error('Error adding to wishlist:', error);
@@ -48,8 +51,8 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
     product.available = !product.available;
     updateProduct(product, product.id)
       .then(() => {
-        setProducts((prevData) => prevData.map((item) => (item.id === product.id ? product : item))
-        );
+        setProducts((prevData) => prevData.map((item) => (item.id === product.id ? product : item)));
+        toast.success('Marked.');
 
       })
       .catch((error) => {
@@ -61,9 +64,11 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
     deleteProduct(product.id)
       .then(() => {
         setProducts((prevData) => prevData.filter((item) => item !== product));
+        toast.success('Product deleted.')
       })
       .catch((error) => {
         console.error('Error marking product: ', error);
+        toast.error('Product could not be deleted.')
       });
   };
 
@@ -81,7 +86,6 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
 
 
 
-  // Initialize the wishlisted products when the component mounts
   useEffect(() => {
     const initialWishlistedProducts = products
       .filter((product) => product.wishlisted)
@@ -116,7 +120,8 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
                 <small className='card-text product-condition'>{product.condition}</small>
           </Link>
                 <div className='d-flex justify-content-between align-items-center mt-2 mb-2'>
-                  <p className='card-text m-0'>Rs. {product.price}</p>
+                <p className='card-text m-0'>Rs. {product.price.toFixed(2)}</p>
+
                   {
                     profile ? (
                       <Dropdown className=' kebab-menu'>

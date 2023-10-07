@@ -59,7 +59,7 @@ const Navbar = () => {
         <div className='fixed-top navbar-container'>
             <nav className="navbar bg-light border-bottom border-bottom-dark bg-body-tertiary" data-bs-theme="dark">
                 <div className="container-fluid d-flex justify-content-between align-items-center m-1">
-                    <div className="d-flex">
+                    <div className="d-flex" style={{fontFamily:'sans-serif'}}>
                         <Link to='/' className='navbar-brand'>
                             {/* <img src="static/assests/logo.png" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" /> */}
                             Horizon

@@ -4,6 +4,7 @@ import Loader from '../Loader/Loader';
 import * as Yup from 'yup';
 import { createReview } from '../../api/reviews';
 import Stars from '../Stars/Stars';
+import toast from 'react-hot-toast';
 
 
 const ReviewUser = ({ revieweeId,closeModal }) => {
@@ -31,7 +32,7 @@ const ReviewUser = ({ revieweeId,closeModal }) => {
         // Call the createProduct API with productData and imageURL
         createReview(reviewData)
             .then((response) => {
-                console.log('Review created:', response);
+                toast.success('Reviewed user succesfully.')
                 closeModal();
             })
             .catch((error) => {
