@@ -6,7 +6,6 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Navbar from './components/Navbar/Navbar';
 import Inbox from './pages/Inbox/Inbox';
-import Chat from './pages/Chat/Chat';
 import Product from './pages/Product/Product';
 import Wishlist from './pages/Wishlist/Wishlist';
 import Profile from './pages/Profile/Profile';
@@ -16,6 +15,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import User from './pages/User/User';
 import { Toaster } from 'react-hot-toast';
+import Ad from './pages/Ad/Ad';
 
 const App = () => {
     return (<
@@ -34,6 +34,7 @@ const App = () => {
                     <Route path="/search" element={<Search />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route element={<ProtectedRoutes />}>
+                        <Route path="/admin/ad" element={<Ad />} />
                         <Route path="/inbox/:username" element={<Inbox />} />
                         <Route path="/inbox" element={<Inbox />} />
                         <Route path="/profile" element={<Profile />} />
