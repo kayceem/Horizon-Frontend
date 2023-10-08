@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { getWishList } from '../../api/wishlist'
 import Products from '../../components/Products/Products';
 import Loader from '../../components/Loader/Loader';
-import toast from 'react-hot-toast';
 
 const Wishlist = () => {
   const [products, setProducts] = useState([]);

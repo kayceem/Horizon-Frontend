@@ -33,9 +33,9 @@ const ExpandableImage = ({ imageUrl }) => {
                     <div className="modal-body p-0">
                         <img
                             src={imageUrl}
-                            className="img-fluid p-0 w-100"
+                            className="img-fluid p-0 rounded"
                             alt="Product"
-                            style={{ maxHeight: '80vh' }}
+                            style={{ maxHeight: '60vh' }}
                         />
         </div>
             </Modal>
