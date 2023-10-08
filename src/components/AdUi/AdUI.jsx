@@ -6,9 +6,7 @@ import { getAds } from '../../api/ad';
 export const AdCarousel = () => {
 
     const [adProducts, setAdProducts] = useState();
-
     const fetchAds = () => {
-        // setLoading(true);
         getAds()
             .then((data) => {
                 setAdProducts([...data]);
@@ -16,10 +14,6 @@ export const AdCarousel = () => {
             })
             .catch((error) => {
                 console.error('Error:', error);
-            })
-            .finally(() => {
-                // setLoading(false);
-
             });
     };
 

@@ -15,7 +15,8 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoutes from './components/ProtectedRoutes/ProtectedRoutes';
 import User from './pages/User/User';
 import { Toaster } from 'react-hot-toast';
-import Ad from './pages/Ad/Ad';
+import AdCreate from './pages/Ad/AdCreate';
+import AdDelete from './pages/Ad/AdDelete';
 
 const App = () => {
     return (<
@@ -34,7 +35,8 @@ const App = () => {
                     <Route path="/search" element={<Search />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route element={<ProtectedRoutes />}>
-                        <Route path="/admin/ad" element={<Ad />} />
+                        <Route path="/admin/ad" element={<AdCreate />} />
+                        <Route path="/admin/delete" element={<AdDelete />} />
                         <Route path="/inbox/:username" element={<Inbox />} />
                         <Route path="/inbox" element={<Inbox />} />
                         <Route path="/profile" element={<Profile />} />

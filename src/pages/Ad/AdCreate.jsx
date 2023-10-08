@@ -8,7 +8,7 @@ import {LuRefreshCw} from 'react-icons/lu';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const Ad = () => {
+const AdCreate = () => {
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -183,7 +183,7 @@ const Ad = () => {
       </div>
     )}
   </div>
-  )
-}
+  );
+};
 
-export default Ad
+export default AdCreate;

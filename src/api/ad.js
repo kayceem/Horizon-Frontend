@@ -17,3 +17,12 @@ export async function createAd(adData){
         throw error;
       }
 }
+
+export async function deleteAd(id) {
+    try {
+      const response = await api.delete(`/ad/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }

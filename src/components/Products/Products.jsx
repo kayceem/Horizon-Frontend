@@ -100,7 +100,7 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
             <div className={`card justify-content-center d-flex  ${product.available ? '' : 'sold-overlay'}`}>
               {/* <div style={{ height: `${expand ? '10vh' : '20vh'}` }} */}
           <Link to={`/product/${product.id}` } className='card-link'>
-              <div className='image-container' style={{ height: '25vh' }}
+              <div className='product-image-container' style={{ height: '25vh' }}
               >
                 <img
                   src={`${process.env.REACT_APP_BACKEND_URL}/${product.image_url}`}
