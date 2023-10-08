@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import './Search.scss';
 import Products from '../../components/Products/Products';
 import Loader from '../../components/Loader/Loader';
+import { Helmet } from 'react-helmet';
 
 const Search = () => {
     const location = useLocation();
@@ -78,6 +79,9 @@ const Search = () => {
 
     return (
         <div className="container-fluid">
+            <Helmet>
+                <title>Search</title>
+            </Helmet>
             <div className="row">
                 {/* Left Sidebar for Filters */}
                 <div className="col-md-3">
@@ -169,7 +173,7 @@ const Search = () => {
                 <div className="products col-md-9">
                     <div className='scrollable-content vh-85'>
                         {loading ? (
-                           <Loader/>
+                            <Loader />
                         ) : products.length === 0 ? (
                             <p className='w-100 d-flex justify-content-center h-80 align-items-center'>No products found.</p>
                         ) : (

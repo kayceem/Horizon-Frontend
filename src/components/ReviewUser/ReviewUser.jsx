@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { createReview } from '../../api/reviews';
 import Stars from '../Stars/Stars';
 import toast from 'react-hot-toast';
+import { Helmet } from 'react-helmet';
 
 
 const ReviewUser = ({ revieweeId,closeModal }) => {
@@ -42,6 +43,9 @@ const ReviewUser = ({ revieweeId,closeModal }) => {
 
     return (
         <div className="container-fluid">
+                  <Helmet>
+        <title>Review</title>
+      </Helmet>
             <div className="mb-2 p-4">
                 <Stars rating={formik.values.rating} editable={true} setRating={handleRatingChange} />
                 {formik.errors.rating && <div className='error'>{formik.errors.rating}</div>}

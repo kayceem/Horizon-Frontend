@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import Stars from '../../components/Stars/Stars';
 import EditUser from '../../components/EditUser/EditUser';
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
+import { Helmet } from 'react-helmet';
 
 const Profile = () => {
   const auth = useAuth();
@@ -22,6 +23,9 @@ const Profile = () => {
   };
   return (
     <div className="container-fluid">
+      <Helmet>
+        <title>Profile</title>
+      </Helmet>
       <div className="row">
         <div className="col-md-3 divider">
           {

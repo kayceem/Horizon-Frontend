@@ -10,6 +10,7 @@ import './Product.scss';
 import ExpandableImage from '../../components/ImageModal/ImageModal';
 import Stars from '../../components/Stars/Stars';
 import toast from 'react-hot-toast';
+import { Helmet } from 'react-helmet';
 
 const Product = () => {
   const { id } = useParams();
@@ -83,8 +84,10 @@ const Product = () => {
   }
 
   return (
-    // <div className='scrollable-content vh-85 w-100'>
     <div className='w-100'>
+      <Helmet>
+        <title>Product</title>
+      </Helmet>
       {
         loading ? (
           <Loader />

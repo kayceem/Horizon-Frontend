@@ -7,6 +7,7 @@ import { getUser } from '../../api/user';
 import ProfileTab from '../../components/ProfileTab/ProfileTab';
 import Stars from '../../components/Stars/Stars';
 import ReviewUserModal from '../../components/ReviewUser/ReviewUserModal';
+import { Helmet } from 'react-helmet';
 
 const User = () => {
     const { username } = useParams();
@@ -47,36 +48,39 @@ const User = () => {
 
 
     return (
-            <div className="container-fluid">
+        <div className="container-fluid">
+            <Helmet>
+                <title>User</title>
+            </Helmet>
             {
                 loading ? (
                     <Loader />
                 ) : userInfo ? (
                     <div className="row">
-                            <div className="col-md-3 divider">
-                                <div className='user-name mt-5 mb-4'>
+                        <div className="col-md-3 divider">
+                            <div className='user-name mt-5 mb-4'>
                                 <h4>{userInfo.first_name} {userInfo.last_name}</h4>
                                 <h6>@{userInfo.username}</h6>
-                                </div>
-                                <div className='d-flex align-items-center justify-content-between mb-5'>
-                                    <Stars rating={userInfo.rating} size={26} half={true} /> 
-                                    <p className='my-0 me-4'>{userInfo.rating}(5)</p>
-                                </div>
-                                <p className='m-0 p-0 mb-4'>Member since: {new Date(userInfo.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
-                                <div className='interact-buttons d-flex justify-content-start me-4 align-items-center'>
-                                <button className='btn btn-dark btn-sm' onClick={toggleModal}>Review User</button>
-                                <ReviewUserModal isModalOpen={isModalOpen} closeModal={closeModal} revieweeId={userInfo.id}/>
-                                <button className='btn btn-dark btn-sm' onClick={()=>{navigate(`/inbox/${userInfo.username}`)}}>Contact User</button>
-                                </div>
                             </div>
-                            <div className="col-md-9">
-                                {
-                                    userInfo.id ? (
-                                        <ProfileTab user_id={userInfo.id} isProfile={false} />
-                                    ) : (
-                                        <Loader />
-                                    )
-                                }
+                            <div className='d-flex align-items-center justify-content-between mb-5'>
+                                <Stars rating={userInfo.rating} size={26} half={true} />
+                                <p className='my-0 me-4'>{userInfo.rating}(5)</p>
+                            </div>
+                            <p className='m-0 p-0 mb-4'>Member since: {new Date(userInfo.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
+                            <div className='interact-buttons d-flex justify-content-start me-4 align-items-center'>
+                                <button className='btn btn-dark btn-sm' onClick={toggleModal}>Review User</button>
+                                <ReviewUserModal isModalOpen={isModalOpen} closeModal={closeModal} revieweeId={userInfo.id} />
+                                <button className='btn btn-dark btn-sm' onClick={() => { navigate(`/inbox/${userInfo.username}`) }}>Contact User</button>
+                            </div>
+                        </div>
+                        <div className="col-md-9">
+                            {
+                                userInfo.id ? (
+                                    <ProfileTab user_id={userInfo.id} isProfile={false} />
+                                ) : (
+                                    <Loader />
+                                )
+                            }
                         </div>
                     </div>
                 ) : (

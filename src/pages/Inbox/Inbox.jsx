@@ -8,6 +8,7 @@ import Chat from '../Chat/Chat';
 import { useParams } from 'react-router-dom';
 import { getUser } from '../../api/user';
 import { BsFillInboxFill } from 'react-icons/bs';
+import { Helmet } from 'react-helmet';
 
 
 const Inbox = () => {
@@ -80,6 +81,9 @@ const Inbox = () => {
 
   return (
     <div className='container-fluid row'>
+      <Helmet>
+        <title>Inbox</title>
+      </Helmet>
       <div className='col-md-4 divider'>
         <div className='mb-4 d-flex justify-content-between inbox-heading ms-2 me-4 align-items-center'>
           <p>Inbox</p>
@@ -92,7 +96,7 @@ const Inbox = () => {
             loading ? (
               <Loader />
             ) : messages.length === 0 ? (
-              <p className='d-flex justify-content-center'>Your Inbox is empty :(</p>
+              <p className='d-flex justify-content-center align-items-center h-80'>Inbox is empty :(</p>
             ) : (
               <div className='scrollable-content'>
                 {messages.map((message) => (

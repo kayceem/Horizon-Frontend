@@ -7,6 +7,7 @@ import Loader from '../../components/Loader/Loader';
 import { AdCarousel, AdHero } from '../../components/AdUi/AdUI';
 import Footer from '../../components/Footer/Footer';
 import toast from 'react-hot-toast';
+import { Helmet } from 'react-helmet';
 
 const Home = () => {
   const [mostViewedProducts, setMostViewedProducts] = useState([]);
@@ -71,6 +72,9 @@ const Home = () => {
 
   return (
     <div className="scrollable-content vh-85" style={{ width: '100vw' }}>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       {loading ? (
         <Loader />
       ) : mostViewedProducts.length === 0 && latestProducts.length === 0 ? (
