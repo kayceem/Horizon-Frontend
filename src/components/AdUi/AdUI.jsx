@@ -3,10 +3,6 @@ import { Carousel, Col, Container, Row } from 'react-bootstrap';
 import './AdUI.scss';
 import { getAds } from '../../api/ad';
 
-
-
-
-
 export const AdCarousel = () => {
 
     const [adProducts, setAdProducts] = useState();
