@@ -1,6 +1,20 @@
 .error{
-    color: rgb(199, 93, 93);
+    color: rgb(160, 86, 86);
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 5px;
+}
+.login-form-group{
+    height: 100px;
+
+}
+.card-body{
+    .form-control{
+        border-color: #7b7c7d;
+    }
+}
+.login-container{
+    .card{
+        border-color: #7b7c7d;
+    }
 }

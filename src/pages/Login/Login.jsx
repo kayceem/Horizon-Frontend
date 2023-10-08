@@ -3,10 +3,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { login } from '../../api/auth';
 import './Login.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import toast, { ToastBar } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { Helmet } from 'react-helmet';
+import CompanyCard from '../../components/CompanyCard/CompanyCard';
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
@@ -46,44 +47,62 @@ const Login = () => {
       });
   }
   return (
-    <div className="container-fluid">
+    <div className="container-fluid login-container">
       <Helmet>
         <title>Login</title>
       </Helmet>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="form-group mb-3">
-          <label className="form-label">
-            Username
-            <input
-              type="text"
-              name="username"
-              className="form-control"
-              value={formik.values.username}
-              onChange={formik.handleChange} />
-          </label>
+      <div className="row" style={{ height: '80vh' }}>
+        <div className="col-md-6 d-flex align-items-center flex-column">
+          <CompanyCard />
         </div>
+        <div className="col-md-6 d-flex align-items-center" >
+          <div className="card p-4" style={{ height: '50vh', width: '100%' }}>
+            <div className="card-body">
+              <form onSubmit={formik.handleSubmit} className='d-flex justify-content-between flex-column' style={{ height: '100%'}}>
+                  <div>
+                  <div className="form-group login-form-group">
+                    <label className="form-label">
+                      Username
+                      <input
+                        type="text"
+                        name="username"
+                        className="form-control"
+                        value={formik.values.username}
+                        onChange={formik.handleChange} />
+                    </label>
+                  </div>
 
-        <div>
-          <label className="form-label">
-            Password
-            <input
-              type="password"
-              name="password"
-              className="form-control"
-              value={formik.values.password}
-              onChange={formik.handleChange} />
-          </label>
+                  <div className="form-group login-form-group">
+                    <label className="form-label">
+                      Password
+                      <input
+                        type="password"
+                        name="password"
+                        className="form-control"
+                        value={formik.values.password}
+                        onChange={formik.handleChange} />
+                    </label>
+                  </div>
+                  {(formik.touched.username && formik.errors.username) || (formik.touched.password && formik.errors.password) ? (
+                    <div className='error'>{formik.errors.username || formik.errors.password}</div>
+                  ) : null}
+                  {errorMessage && <div className='error'>{errorMessage}</div>}
+                  </div>
+
+                <div className='d-flex align-items-end w-100 justify-content-between'>
+                  <button className="btn btn-dark me-3" type='submit'>
+                    Login
+                  </button>
+                  <Link to={'/signup'} className='p-0 m-0 me-5' style={{ textDecoration: 'none', color: 'black' }}>
+                    Don't have an account? Sign up
+                  </Link>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        {(formik.touched.username && formik.errors.username) || (formik.touched.password && formik.errors.password) ? (
-          <div className='error'>{formik.errors.username || formik.errors.password}</div>
-        ) : null}
-        {errorMessage && <div className='error'>{errorMessage}</div>}
-        <div>
-          <button className="btn btn-dark" type='submit'>
-            Login
-          </button>
-        </div>
-      </form>
+      </div>
+
     </div>
   );
 };

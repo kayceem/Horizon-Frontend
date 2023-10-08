@@ -145,7 +145,7 @@ const Product = () => {
                       </div>
                     </div>
                   ) : (
-                    <button className='btn btn-dark  login-contact-button' onClick={() => { navigate("/login", { state: { path: location.pathname } }) }}>
+                    <button className='btn btn-dark login-contact-button ms-4' onClick={() => { navigate("/login", { state: { path: location.pathname } }) }}>
                       Login to contact seller
                     </button>
 
