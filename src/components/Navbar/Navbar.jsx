@@ -9,6 +9,7 @@ import AddProductModal from '../AddProduct/AddProductModal';
 import { useAuth } from '../../context/AuthContext';
 import './Navbar.scss'
 import { logout } from '../../api/auth';
+import logo from './logo.png';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -61,7 +62,7 @@ const Navbar = () => {
                 <div className="container-fluid d-flex justify-content-between align-items-center m-1">
                     <div className="d-flex" style={{fontFamily:'sans-serif'}}>
                         <Link to='/' className='navbar-brand'>
-                            <img src="logo.png" alt="Logo" width="26" height="24" className="d-inline-block align-text-top" />
+                            <img src={logo} alt="Logo" width="26" height="24" className="d-inline-block align-text-top" />
                              Horizon
                         </Link>
                     </div>

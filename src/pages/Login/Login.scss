@@ -1,22 +1,6 @@
 .error{
-    color: red;
-    font-size: 12px;
-}
-.login-container{
-    form{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        div{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            label{
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-        }
-    }
+    color: rgb(199, 93, 93);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
 }

@@ -7,28 +7,27 @@ import { RxCross1 } from 'react-icons/rx';
 import { TbSend } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 
-const Chat = ({ refreshInbox, username, firstName, lastName, setUsername, offset, setOffset, messages, setMessages, isAvailable, setIsAvailable, initialLoad, setInitialLoad }) => {
+const Chat = ({ refreshInbox, username, firstName, lastName, setUsername, messages, setMessages, isAvailable, setIsAvailable, initialLoad, setInitialLoad }) => {
   const [newMessage, setNewMessage] = useState('');
   const chatContainerRef = useRef(null);
 
   const fetchChat = () => {
-    getMessages(username, offset)
+    getMessages(username)
       .then((data) => {
-        setMessages((prevMessages) => {
-          const newData = data.filter((newMessage) => {
-            return !prevMessages.some((existingMessage) => existingMessage.id === newMessage.id);
-          });
-          if (data.length !== 20) {
-            setIsAvailable(false)
-          }
-          return [...prevMessages, ...newData];
-        });
+        setMessages(data)
+        // setMessages((prevMessages) => {
+        //   const newData = data.filter((newMessage) => {
+        //     return !prevMessages.some((existingMessage) => existingMessage.id === newMessage.id);
+        //   });
+          // if (data.length !== 20) {
+          //   setIsAvailable(false)
+          // }
+          // setOffset(offset + 20);
+          // return [...prevMessages, ...newData];
+        // });
       })
       .catch((error) => {
         console.error('Error fetching chat messages:', error);
-      })
-      .finally(() => {
-        setOffset(offset + 20);
       });
   };
 
@@ -51,17 +50,15 @@ const Chat = ({ refreshInbox, username, firstName, lastName, setUsername, offset
       .then(() => {
         setNewMessage('');
         setMessages([]);
-        setIsAvailable(true);
-        setOffset(0);
+        // setIsAvailable(true);
+        // setOffset(0);
         refreshInbox();
         setInitialLoad(true);
+        fetchChat();
     })
     .catch((error) => {
       console.error(error);
-    })
-    return(()=>{
-      fetchChat();  
-    })
+    });
   };
 
   const convertToNepalTime = (utcTimestamp) => {
@@ -103,7 +100,7 @@ const Chat = ({ refreshInbox, username, firstName, lastName, setUsername, offset
           <div className='scrollable-content vh-95' ref={chatContainerRef}>
             <InfiniteScroll
               loadMore={fetchChat}
-              hasMore={isAvailable}
+              hasMore={false}
               loader={
                 <Loader />
               }

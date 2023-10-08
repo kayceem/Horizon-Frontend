@@ -78,7 +78,7 @@ const Product = () => {
   }, []);
 
   const goToChat = (user) => {
-    user === auth.user.username ?
+    user !== auth.user.username ?
     navigate(`/inbox/${user.username}`) :
     navigate('/inbox') ;
   }

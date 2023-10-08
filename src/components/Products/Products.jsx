@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { BiDotsVerticalRounded } from 'react-icons/bi';
-import backendBaseUrl from '../../config';
 import './Products.scss';
 import { Dropdown } from 'react-bootstrap';
 import { deleteProduct, updateProduct } from '../../api/products';
@@ -100,13 +99,12 @@ const Products = ({ products, setProducts, expand = false, profile = false }) =>
             <div className={`card justify-content-center d-flex  ${product.available ? '' : 'sold-overlay'}`}>
               {/* <div style={{ height: `${expand ? '10vh' : '20vh'}` }} */}
           <Link to={`/product/${product.id}` } className='card-link'>
-              <div className='product-image-container' style={{ height: '25vh' }}
+              <div className='product-image-container' style={{ height: '20vh' }}
               >
                 <img
                   src={`${process.env.REACT_APP_BACKEND_URL}/${product.image_url}`}
-                  className='card-img-top img-fluid'
+                  className='card-img-top image-zoom'
                   alt='...'
-                  style={{ maxHeight: '25vh' }}
                 />
               </div>
           </Link>

@@ -128,7 +128,7 @@ const Inbox = () => {
       </div>
       <div className='col-md-8'>
         {chatUsername ? (
-          <Chat refreshInbox={refreshInbox} username={chatUsername} firstName={firstName} lastName={lastName} setUsername={setChatUsername} offset={offset} setOffset={setOffset} messages={chatMessages} setMessages={setChatMessages} initialLoad={initialLoad} setInitialLoad={setInitialLoad} setIsAvailable={setIsAvailable} isAvailable={isAvailable} />
+          <Chat refreshInbox={refreshInbox} username={chatUsername} firstName={firstName} lastName={lastName} setUsername={setChatUsername} messages={chatMessages} setMessages={setChatMessages} initialLoad={initialLoad} setInitialLoad={setInitialLoad} setIsAvailable={setIsAvailable} isAvailable={isAvailable} />
         ) : (
           <p className='d-flex align-items-center justify-content-center w-100 h-80'>No conversation selected</p>
         )
