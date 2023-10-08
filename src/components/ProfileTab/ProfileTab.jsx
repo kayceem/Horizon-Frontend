@@ -63,7 +63,7 @@ const ProfileTab = ({user_id, isProfile}) => {
                         <div>
                             {activeTab === 'product' && (
                                 products.length === 0 ? (
-                                    <p className='d-flex justify-content-center align-items-center'>No products available :(</p>
+                                    <p className='d-flex justify-content-center align-items-center h-80'>No products available :(</p>
                                 ) : (
                                     <ProductsTab products={products} setProducts={setProducts} isProfile={isProfile}/>
                                 )
@@ -75,8 +75,6 @@ const ProfileTab = ({user_id, isProfile}) => {
                         </div>
                     )
                 }
-
-
             </div>
         </div>
     );
