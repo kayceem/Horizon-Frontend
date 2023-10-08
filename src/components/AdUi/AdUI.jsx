@@ -28,7 +28,7 @@ export const AdCarousel = () => {
     },[]);
 
     return (
-        <Carousel data-bs-theme="dark" interval={1000} className='carousel-index mb-5'>
+        <Carousel data-bs-theme="dark" interval={1000} className='carousel-index mb-5' controls={false}>
             {adProducts && adProducts.map((product) => (
                 <Carousel.Item key={product.id}>
                     <img

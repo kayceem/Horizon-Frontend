@@ -61,7 +61,7 @@ const Navbar = () => {
                 <div className="container-fluid d-flex justify-content-between align-items-center m-1">
                     <div className="d-flex" style={{fontFamily:'sans-serif'}}>
                         <Link to='/' className='navbar-brand'>
-                            <img src="static/assests/logo.png" alt="Logo" width="26" height="24" className="d-inline-block align-text-top" />
+                            <img src="logo.png" alt="Logo" width="26" height="24" className="d-inline-block align-text-top" />
                              Horizon
                         </Link>
                     </div>

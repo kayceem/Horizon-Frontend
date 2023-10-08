@@ -44,9 +44,6 @@
       opacity: 70%;
     }
   }
-  // .card{
-  //   border: none;
-  // }
   .w-200{
     width: 200px;
   }
@@ -56,4 +53,8 @@
   .card-link{
     text-decoration: none !important;
     color: black;
+  }
+  .image-container{
+    border-bottom: 1px solid rgb(216, 216, 216);
+    width: 100%;
   }
