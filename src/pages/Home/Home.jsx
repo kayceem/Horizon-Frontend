@@ -36,8 +36,8 @@ const Home = () => {
         }
       })
       .catch((error) => {
-        console.error('Error fetching products:', error);
-        toast.error('No more products.')
+        console.error('Error fetching products:', error.message);
+        toast.error(error.message)
       });
   };
 
@@ -74,7 +74,7 @@ const Home = () => {
       {loading ? (
         <Loader />
       ) : mostViewedProducts.length === 0 && latestProducts.length === 0 ? (
-        <p className='d-flex justify-content-center mt-5'>No products available :(</p>
+        <p className='d-flex justify-content-center mt-4'>No products available :(</p>
       ) : (
         <div className='product container-fluid shrinked'>
           <AdCarousel />

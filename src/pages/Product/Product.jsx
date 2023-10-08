@@ -5,7 +5,6 @@ import Loader from '../../components/Loader/Loader';
 import Error404 from '../Error404/Error404';
 import { useAuth } from '../../context/AuthContext';
 import { getCategory } from '../../api/category';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { addToWishList, deleteFromWishList } from '../../api/wishlist';
 import './Product.scss';
 import ExpandableImage from '../../components/ImageModal/ImageModal';

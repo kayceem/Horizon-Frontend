@@ -11,7 +11,7 @@ export async function getAds() {
 
 export async function createAd(adData){
     try {
-        const response = await api.post('/ad/create/', adData);
+        const response = await api.post('/ad/', adData);
         return response.data;
       } catch (error) {
         throw error;

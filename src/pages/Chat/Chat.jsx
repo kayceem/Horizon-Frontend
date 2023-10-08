@@ -41,7 +41,7 @@ const Chat = ({ refreshInbox, username, firstName, lastName, setUsername, offset
     if (trimmedMessage === '') {
       return;
     }
-
+   
     const messageData = {
       receiver_username: username,
       content: trimmedMessage,
@@ -54,17 +54,14 @@ const Chat = ({ refreshInbox, username, firstName, lastName, setUsername, offset
         setIsAvailable(true);
         setOffset(0);
         refreshInbox();
-
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-    return (() => {
-      fetchChat();
-      if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
-    });
+        setInitialLoad(true);
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    return(()=>{
+      fetchChat();  
+    })
   };
 
   const convertToNepalTime = (utcTimestamp) => {

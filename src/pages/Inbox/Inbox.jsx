@@ -103,7 +103,11 @@ const Inbox = () => {
                     onClick={() => openConversation(message.username, message.first_name, message.last_name)}
                   >
                     <div className='d-flex w-100 justify-content-between'>
-                      <h6 className='d-flex align-items-center mb-1'>{message.username} {!message.read && message.sender_id !== auth.user.id && <div className="unread-dot mx-2"></div>} </h6 >
+                      <div className='d-flex flex-column'>
+                      {/* {message.read && message.sender_id !== auth.user.id && <div className="unread-dot"></div>}  */}
+                      <h6 className='d-flex align-items-center mb-1 '>{message.first_name}{message.last_name}</h6>
+                      <p className='d-flex align-items-center mb-1 message-username'>@{message.username}</p >
+                      </div>
                       <p className='message-string p-0 m-0'>{new Date(message.created_at).toLocaleDateString()}</p>
                     </div>
                     <p className='mb-1 message-string'>
