@@ -1,6 +1,7 @@
 import React from 'react'
 import './Footer.scss';
 import {BsFacebook, BsInstagram, BsTwitter, BsLinkedin} from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -17,7 +18,9 @@ const Footer = () => {
               <ul className="list-unstyled social-icons">
                 {/* < */}
                 <BsFacebook size={26}/>
+                <Link to={'https://www.instagram.com/sijansigdel/'} style={{textDecoration:'none', color:'black'}}>
                 <BsInstagram size={26}/>
+                </Link>
                 <BsTwitter size={26}/>
                 <BsLinkedin size={26}/>
               </ul>
