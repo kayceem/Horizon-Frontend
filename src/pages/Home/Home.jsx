@@ -38,7 +38,9 @@ const Home = () => {
       })
       .catch((error) => {
         console.error('Error fetching products:', error.message);
-        toast.error(error.message)
+        error.code === "ERR_NETWORK"
+        ? toast.error(error.message)
+        : toast.error(error.response.data.detail)
       });
   };
 
