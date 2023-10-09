@@ -17,6 +17,7 @@ import User from './pages/User/User';
 import { Toaster } from 'react-hot-toast';
 import AdCreate from './pages/Ad/AdCreate';
 import AdDelete from './pages/Ad/AdDelete';
+import Category from './pages/Category/Category';
 
 const App = () => {
     return (<
@@ -37,6 +38,7 @@ const App = () => {
                     <Route element={<ProtectedRoutes />}>
                         <Route path="/admin/ad" element={<AdCreate />} />
                         <Route path="/admin/delete" element={<AdDelete />} />
+                        <Route path="/admin/category" element={<Category />} />
                         <Route path="/inbox/:username" element={<Inbox />} />
                         <Route path="/inbox" element={<Inbox />} />
                         <Route path="/profile" element={<Profile />} />
