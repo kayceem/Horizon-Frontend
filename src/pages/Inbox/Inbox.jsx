@@ -27,9 +27,9 @@ const Inbox = () => {
 
   const auth = useAuth();
 
-  const fetchInbox = () => {
+  const fetchInbox = (load=true) => {
     // Fetch inbox messages when the component mounts
-    setLoading(true);
+    setLoading(load);
     getInbox()
       .then((data) => {
         setMessages(data);
@@ -55,7 +55,7 @@ const Inbox = () => {
     }
   }
   const refreshInbox = () => {
-    fetchInbox();
+    fetchInbox(false);
   }
   const fetchUserInfo = () => {
     getUser(username)
