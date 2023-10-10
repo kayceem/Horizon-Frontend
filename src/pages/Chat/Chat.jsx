@@ -74,12 +74,10 @@ const Chat = ({ refreshInbox, username, firstName, lastName, setUsername, messag
   }, [username])
 
   useEffect(() => {
-    return (() => {
       if (chatContainerRef.current && initialLoad) {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         setInitialLoad(false);
       }
-    })
   }, [messages])
 
 

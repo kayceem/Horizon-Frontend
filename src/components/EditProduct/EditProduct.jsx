@@ -46,9 +46,7 @@ const EditProduct = ({ closeModal, product }) => {
 
 
 useEffect (()=>{
-    return () => {
         fetchCategories();
-    };
 },[]);
 
   const handleProductSubmit = (productData) => {

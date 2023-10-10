@@ -55,11 +55,9 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch initial products data
-    return () => {
       fetchData();
       setLatestProducts([]);
       setMostViewedProducts([]);
-    }
   }, []);
 
   const handleLoadMore = () => {

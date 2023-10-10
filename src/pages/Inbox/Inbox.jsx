@@ -69,14 +69,12 @@ const Inbox = () => {
 
   }
   useEffect(() => {
-    return () => {
       fetchInbox();
       {
         username &&
           fetchUserInfo();
         setChatUsername(username);
       }
-    };
   }, []);
 
   return (

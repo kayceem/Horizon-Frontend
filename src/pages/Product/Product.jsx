@@ -71,10 +71,8 @@ const Product = () => {
   }, [product])
 
   useEffect(() => {
-    return () => {
       fetchCategory();
       fetchProduct();
-    }
   }, []);
 
   const goToChat = (user) => {

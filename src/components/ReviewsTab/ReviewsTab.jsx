@@ -27,9 +27,7 @@ const ReviewsTab = ({ userId }) => {
 
   };
   useEffect(() => {
-    return () => {
       fetchReviews();
-    }
   }, [])
   return (
     <div className="reviews-tab">

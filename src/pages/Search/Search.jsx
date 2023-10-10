@@ -62,9 +62,7 @@ const Search = () => {
     };
 
     useEffect(() => {
-        return () => {
             fetchCategories();
-        };
     }, []);
 
     useEffect(() => {

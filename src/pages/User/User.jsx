@@ -41,9 +41,7 @@ const User = () => {
 
     useEffect(() => {
         auth.user.username === username && navigate('/profile');
-        return () => {
-            fetchUser();
-        }
+        fetchUser();
     }, []);
 
 
