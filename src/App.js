@@ -27,7 +27,7 @@ const App = () => {
             containerStyle={{marginTop:'55px'}}
             reverseOrder={false} />
         <AuthProvider>
-            <Router>
+            <Router basename="/">
                 <Navbar />
                 <Routes >
                     <Route path="/" element={<Home />} />
